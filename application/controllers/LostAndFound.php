@@ -65,4 +65,11 @@ class LostAndFound extends CI_Controller {
 		$this->load->view('LostDetails');
 		$this->load->view('templates/footer');
 	}
+
+	public function Admin()
+	{
+		$this->load->view('templates/header');
+		$this->load->view('Admin');
+		$this->load->view('templates/footer');
+	}
 }
