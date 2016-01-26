@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="<?php echo asset_url(); ?>css/jquery.mobile-1.4.5.min.css">
-	<script src="<?php echo asset_url(); ?>js/jquery-2.2.0.min.js"></script>
-	<script src="<?php echo asset_url(); ?>js/jquery.mobile-1.4.5.min.js"></script>
-	<link rel="stylesheet" href="<?php echo asset_url(); ?>css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="<?php echo asset_url(); ?>css/jquery.mobile-1.4.5.min.css">
+<link href="<?php echo asset_url(); ?>css/bootstrap.min.css"
+	rel="stylesheet">
+<script src="<?php echo asset_url(); ?>js/jquery-2.2.0.min.js"></script>
+<script src="<?php echo asset_url(); ?>js/jquery.mobile-1.4.5.min.js"></script>
+<script src="<?php echo asset_url(); ?>js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="<?php echo asset_url(); ?>css/style.css">
 </head>
 <body>
 	<div data-role="page" id="pageone">

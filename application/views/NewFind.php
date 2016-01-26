@@ -9,15 +9,10 @@
 		<input type="text" name="studentID" id="studentID" placeholder="学号" required>
 		<input type="text" name="cellphone" id="cellphone" placeholder="联系方式"required>
 		<select name="category" id="category">
-				<option value="Cards">校园卡/其他证件</option>
-				<option value="StorageDevices">U盘/其他存储设备</option>
-				<option value="Cellphones">手机/平板/笔记本</option>
-				<option value="CamerasAndOthers">相机/其他数码产品</option>
-				<option value="Cards">校园卡/其他证件</option>
-				<option value="Bags">钱包/书包/其他箱包</option>
-				<option value="Books">书刊杂志</option>
-				<option value="Clothes">衣物鞋帽</option>
-				<option value="Others">其他</option>
+		<?php foreach ($view as $item): ?>
+				<option value="<?php echo $item['value'];?>"><?php echo $item['name'];?></option>
+
+		<?php endforeach; ?>
 		</select>
 		<input type="text" name="propertyName" id="propertyName" placeholder="物品名称" required>
 		<input type="text" name="pickupLocation" id="pickupLocation" placeholder="拾到地点（可不填）">
