@@ -118,3 +118,26 @@ $db['online'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
+
+$db['latin1'] = array(
+	'dsn'	=> '',
+	'hostname' => '127.0.0.1',
+	'username' => 'root',
+	'password' => 'root',
+    'port'     => '3306',
+	'database' => 'afwdb',
+	'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'latin1',
+    'dbcollat' => 'latin1_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);
