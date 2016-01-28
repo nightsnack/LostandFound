@@ -10,7 +10,18 @@ class Find extends CI_Controller
         parent::__construct();
         $this->load->library('pagination');
     }
+
+    public function index()
+    {
+        $this->load->view('templates/header');
+        $this->load->view('Find');
+        $this->load->view('templates/footer');
+    }
     
+    /**
+     *         查询用户学号和名字
+     * @return array 表内全部内容
+     */
     function getname()
     {
         $this->load->model('Info');
@@ -22,12 +33,12 @@ class Find extends CI_Controller
         $this->db->close();
        return $rs;
     }
-    public function index()
-    {
-        $this->load->view('templates/header');
-        $this->load->view('Find');
-        $this->load->view('templates/footer');
-    }
+    
+    /**
+     * 展示当前类型的全部内容，分页
+     * @param number $item_type 类型数字
+     * @param number $current_page 页码
+     */
     public function showItems($item_type,$current_page = 1)
     {
         $this->load->model("Items");
@@ -73,6 +84,10 @@ class Find extends CI_Controller
 		$this->load->view('templates/footer');
     }
     
+    /**
+     * 显示当前物品详情，判断用户是否是发布用户
+     * @param number $item_id 物品id
+     */
     public function showDetail($item_id)
     {
         $personal_data = $this->getname();
@@ -101,7 +116,9 @@ class Find extends CI_Controller
         $this->load->view('templates/footer');
     }
     
-    
+    /**
+     * 新增一个发布
+     */
     public function newFind()
     {
         
@@ -121,6 +138,10 @@ class Find extends CI_Controller
         $this->load->view('templates/footer');
     }
     
+    /**
+     * 更改我发布的物品信息（！！注意，这个方法没有id校验，但入口只存在于 我发布的物品的详情页 ）
+     * @param unknown $item_id 物品id
+     */
     public function showUpdateFind($item_id)
     {
         $this->load->model("Items");
@@ -131,6 +152,10 @@ class Find extends CI_Controller
         $this->load->view('templates/footer');
     }
     
+    /**
+     * 用来接收新增数据页面的post
+     * 成功后跳转该物品详情页，失败返回新增。
+     */
     public function insertNewFind()
     {
         $this->load->model("Items");
@@ -162,7 +187,10 @@ class Find extends CI_Controller
             redirect("Find/newFind");
         }
     }
-    
+    /**
+     * 用来接更新物品详情的post
+     * 也接改变物品通知领取状态的post
+     */
     public function updateFind()
     {
         $this->load->model("Items");
