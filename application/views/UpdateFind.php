@@ -4,8 +4,8 @@
 
 <div data-role="main" class="ui-content">
 
-		<input type="text" name="release_name" id="release_name" placeholder="<?php echo $release_name;?>" disabled="true">
-		<input type="text" name="student_id" id="student_id" placeholder="<?php echo $student_id;?>" disabled="true">
+		<input type="text" name="release_name" id="release_name" value="<?php echo $release_name;?>" disabled="true">
+		<input type="text" name="student_id" id="student_id" value="<?php echo $student_id;?>" disabled="true">
 		
 		<select name="category" id="category" disabled="true">
 				<option value=""><?php echo $type;?></option>
@@ -23,8 +23,9 @@
 		<input type="text" name="position" id="position" placeholder="拾到地点（可不填）" value="<?php echo $position;?>">
 		<p>拾到时间：</p>
 		<input type="text" name="time" id="time" placeholder="拾到时间（可不填）" value="<?php echo $time;?>">
-		<p>描述：</p>
+		<p>物品描述：</p>
 		<textarea name="detail" id="detail" placeholder="物品描述（颜色/体积/重量/形状... 或在下方上传照片）"><?php echo $detail;?></textarea>
+		<p>图片详情：</p>
 		<input type="file" name="uploadphotos">
 	</fieldset>
 	<input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>">

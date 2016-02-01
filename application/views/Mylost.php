@@ -1,8 +1,11 @@
 <div data-role="header">
-  <h1>查找结果</h1>
+  <h1>我的寻物启事</h1>
 </div>
-<div data-role="main" class="ui-content result_display">
 
+<div data-role="main" class="ui-content result_display">
+  <form class="ui-filterable">
+    <input id="myFilter" data-type="search" placeholder="搜索当前目录下的物品"> <!--It's awesome functional!!! -->
+  </form>
   <ul data-role="listview" data-filter="true" data-input="#myFilter" data-inset="true">
   <?php foreach ($res as $list_item): ?>
     <li>
@@ -13,10 +16,8 @@
       </a>
     </li>
     <?php endforeach; ?>
-
     </ul>
   </div>
-  <?php 
+<?php 
   echo $page;
-
-  ?>
+?>

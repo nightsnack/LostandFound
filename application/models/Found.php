@@ -1,26 +1,7 @@
 <?php
 
-class Items extends CI_Model
+class Found extends CI_Model
 {
-
-    /* 所有字段名称 */
-    private $key = array(
-        "student_id",
-        "release_name",
-        "tel",
-        "item_name",
-        "type_id",
-        "position",
-        "time",
-        "detail",
-        "notice_id",
-        "notice_change_person",
-        "notice_change_time",
-        "receive_id",
-        "receive_change_person",
-        "receive_change_time"
-    );
-
     /* 主键名 */
     private $primary_key = "item_id";
 
@@ -160,6 +141,38 @@ class Items extends CI_Model
         ));
         return $this->db->affected_rows();
     }
+    
+    /**
+     *
+     * @param int $student_id
+     *            学号
+     * @param int $offset
+     *            开始位置
+     * @param int $num
+     *            查找数量
+     * @return array:total 当前项总数量
+     *         res 详情结果（数组）
+     */
+    public function query_mine($student_id, $offset, $num)
+    {
+        $this->db->select('a.item_id,a.item_name,a.detail,b.name as receive');
+        $this->db->from("$this->table as a");
+        $this->db->join('receive_status as b', "a.receive_id = b.receive_id", 'inner');
+        $this->db->order_by($this->primary_key, 'DESC');
+        $this->db->where("a.student_id", $student_id);
+        $this->db->limit($num, $offset);
+        $query = $this->db->get()->result_array();
+    
+        $this->db->where("student_id", $student_id);
+        $this->db->from($this->table);
+        $res = $this->db->count_all_results();
+    
+        return array(
+            'total' => $res,
+            'res' => $query
+        );
+    }
+    
 }
     
     

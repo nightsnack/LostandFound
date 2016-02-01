@@ -23,13 +23,18 @@
 	<p>更改人：<?php echo $inform_change_person;?></p>
 	<p>更改时间：<?php echo $inform_change_time;?></p>
 	<form method="post" data-ajax="false" action="<?php echo $action;?>" style="display:<?php echo $display;?>;"> 
+		<p>更改为：</p>
 		<select name="inform_id" id="inform_id" >
 		<?php foreach ($inform_select as $item): ?>
-				<option value="<?php echo $item['inform_id'];?>"<?php if($item['name']==$inform) echo 'selected = "selected" disabled=""';?>><?php echo $item['name'];?></option> 
+				<option value="<?php echo $item['inform_id'];?>"<?php if($item['name']==$inform) echo 'disabled=""';?>><?php echo $item['name'];?></option> 
 		<?php endforeach; ?>
 		</select>
+		
 		<input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>">
-        <button type="submit" id="submit" <?php if ($receive !== '未领取')  echo ' disabled=""';?>>更新</button>
+        <input type="hidden" name="inform_change_person" id="inform_change_person" value="<?php echo $release_name; ?>">
+        <input type="hidden" name="inform_change_time" id="inform_change_time" value="<?php echo date('Y-m-d H:i:s'); ?>">
+        
+        <button type="submit" id="submit" <?php if ($receive !== '未领取')  echo 'disabled=""';?>>更新</button>
     </form>
 	<hr>
 	
@@ -37,15 +42,20 @@
 	<p>更改人：<?php echo $receive_change_person;?></p>
 	<p>更改时间：<?php echo $receive_change_time;?></p>
 	<form method="post" data-ajax="false" action="<?php echo $action;?>" style="display:<?php echo $display;?>;"> 
+		<p>更改为：</p>
 		<select name="receive_id" id="receive_id" >
 		<?php foreach ($receive_select as $item): ?>
-				<option value="<?php echo $item['receive_id'];?>"<?php if($item['name']==$receive) echo 'selected = "selected" disabled=""';?>><?php echo $item['name'];?></option> 
+				<option value="<?php echo $item['receive_id'];?>"<?php if($item['name']==$receive) echo 'disabled=""';?>><?php echo $item['name'];?></option> 
 		<?php endforeach; ?>
 		</select>
-				<input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>">
-            <button type="submit" id="submit" <?php if ($inform === '未通知')  echo ' disabled=""';?>>
-           <?php if ($inform === '未通知')  echo '请先通知'; else echo "更新";?>
-           </button>
+		
+		<input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>">
+        <input type="hidden" name="receive_change_person" id="receive_change_person" value="<?php echo $release_name; ?>">
+        <input type="hidden" name="receive_change_time" id="receive_change_time" value="<?php echo date('Y-m-d H:i:s'); ?>">
+        
+        <button type="submit" id="submit" <?php if ($inform === '未通知')  echo ' disabled=""';?>>
+        <?php if ($inform === '未通知')  echo '请先通知'; else echo "更新";?>
+        </button>
     </form>
 	<hr>
 	
