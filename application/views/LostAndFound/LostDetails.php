@@ -6,7 +6,7 @@
 
 	<h2>物品名称：<?php echo $item_name;?></h2>
 	
-	<a class="btn btn-default" href="<?php echo site_url("Lose/showUpdateLose/$item_id")?>" role="button"  style="display:<?php echo $display;?>;" >编辑</a>
+	<a class="btn btn-default" href="<?php echo site_url("LostAndFound/Lose/showUpdateLose/$item_id")?>" role="button"  style="display:<?php echo $display;?>;" >编辑</a>
 	
 	<hr>
 	<p>物品类型：<?php echo $type;?></p>

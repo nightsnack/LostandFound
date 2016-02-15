@@ -14,13 +14,21 @@ class Person extends CI_Controller
         $this->getID();
     }
     
+    
+    public function index()
+    {
+        $this->load->view("templates/header");
+        $this->load->view("LostAndFound/Admin");
+        $this->load->view("templates/footer");
+    }
+    
     private function getID()
     {
         $this->load->model('Info');
         $rs = $this->Info->queryVal($this->open_id);
         if (empty($rs['name'])||$rs['name']=='nothing')
         {
-            $this->load->view("bind");
+            $this->load->view("Bind");
             die();
         }
         $this->db->close();
@@ -28,16 +36,16 @@ class Person extends CI_Controller
         $this->name=$rs['name'];
         $this->db->close();
     }
-    
+
     public function myLose($current_page = 1)
     {
         $config['per_page']=$this->per_page;
         $offset   = ($current_page - 1 ) * $config['per_page'];
-        $this->load->model('Lost');
+        $this->load->model('LostAndFound/Lost');
         $item_info = $this->Lost->query_mine($this->student_id,$offset,$config['per_page']);
-        $config['base_url'] = site_url("Person/myLose/");
+        $config['base_url'] = site_url("LostAndFound/Person/myLose/");
         $config['total_rows'] = $item_info['total'];
-        $config['uri_segment'] = 3;
+        $config['uri_segment'] = 4;
         $config['num_links'] = 2;
         $config['use_page_numbers'] = TRUE;
         
@@ -65,7 +73,7 @@ class Person extends CI_Controller
         $pass['page']= $this->pagination->create_links();
         $pass['res'] = $item_info['res'];
         $this->load->view('templates/header');
-        $this->load->view('Mylost',$pass);
+        $this->load->view('LostAndFound/Mylost',$pass);
         $this->load->view('templates/footer');
     }
     
@@ -73,11 +81,11 @@ class Person extends CI_Controller
     {
         $config['per_page']=$this->per_page;
         $offset   = ($current_page - 1 ) * $config['per_page'];
-        $this->load->model('Found');
+        $this->load->model('LostAndFound/Found');
         $item_info = $this->Found->query_mine($this->student_id,$offset,$config['per_page']);
-        $config['base_url'] = site_url("Person/myFind/");
+        $config['base_url'] = site_url("LostAndFound/Person/myFind/");
         $config['total_rows'] = $item_info['total'];
-        $config['uri_segment'] = 3;
+        $config['uri_segment'] = 4;
         $config['num_links'] = 2;
         $config['use_page_numbers'] = TRUE;
     
@@ -106,7 +114,7 @@ class Person extends CI_Controller
         $pass['res'] = $item_info['res'];
         $pass['url']="Find/showDetail/";
         $this->load->view('templates/header');
-        $this->load->view('Myfound',$pass);
+        $this->load->view('LostAndFound/Myfound',$pass);
         $this->load->view('templates/footer');
     }
     

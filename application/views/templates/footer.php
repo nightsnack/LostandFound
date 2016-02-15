@@ -1,7 +1,7 @@
 <div data-role="footer">
-	<h1>©爱服务</h1>
+	<h1>©iService Studio</h1>
 </div>
-</div> 
+
 
 <!-- Search Dialog -->
 

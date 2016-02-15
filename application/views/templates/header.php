@@ -15,7 +15,7 @@
 	<div data-role="page" id="pageone">
 		<div data-role="navbar">
 			<ul>
-				<li><a href="<?php echo view_url(); ?>" data-icon="home">爱服务失物招领中心</a></li>
+				<li><a href="<?php echo site_url("LostAndFound/Home"); ?>" data-icon="home">失物招领中心</a></li>
 				<li><a href="#pagetwo" data-icon="search">搜索物品</a></li>
 			</ul>
 		</div>

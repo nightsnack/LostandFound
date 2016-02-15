@@ -3,7 +3,7 @@
 </div>
 
 <div data-role="main" class="ui-content">
-<form method="post" data-ajax="false" action="<?php echo site_url('Lose/insertNewLose') ?>">   <!-- ajax -->
+<form method="post" data-ajax="false" action="<?php echo site_url('LostAndFound/Lose/insertNewLose') ?>">   <!-- ajax -->
 	<fieldset class="ui-field-contain">
 	    <p>姓名：</p>
 		<input type="text" name="release_name" id="release_name" value="<?php echo $name;?>" readonly>

@@ -1,6 +1,6 @@
 <?php
 
-class Lose extends CI_Controller
+class Find extends CI_Controller
 {
     private $per_page = 5;
     private $open_id = 1101;
@@ -10,11 +10,11 @@ class Lose extends CI_Controller
         parent::__construct();
         $this->load->library('pagination');
     }
-    
+
     public function index()
     {
         $this->load->view('templates/header');
-        $this->load->view('Lost');
+        $this->load->view('LostAndFound/Find');
         $this->load->view('templates/footer');
     }
     
@@ -31,7 +31,7 @@ class Lose extends CI_Controller
             $rs['student_id']='';
         }
         $this->db->close();
-        return $rs;
+       return $rs;
     }
     
     /**
@@ -41,44 +41,47 @@ class Lose extends CI_Controller
      */
     public function showItems($item_type,$current_page = 1)
     {
-        $this->load->model("Lost");
+        $this->load->model("LostAndFound/Found");
         $config = array();
         $config['per_page']=$this->per_page;
+//         $post_data = $this->input->get(NULL, TRUE);
+//         $item_type = $post_data["type"];
+//         $current_page = $post_data["pagenum"];
         $offset   = ($current_page - 1 ) * $config['per_page'];
-        $item_info = $this->Lost->query_list($item_type,$offset,$config['per_page']);
-        $config['base_url'] = site_url("Lose/showItems/$item_type");
+        $item_info = $this->Found->query_list($item_type,$offset,$config['per_page']);
+        $config['base_url'] = site_url("LostAndFound/Find/showItems/$item_type");
         $config['total_rows'] = $item_info['total'];
-        $config['uri_segment'] = 4;
+        $config['uri_segment'] = 5;
         $config['num_links'] = 2;
         $config['use_page_numbers'] = TRUE;
-    
+ 
         $config['full_tag_open'] = '<center><ul class="pagination">';
         $config['full_tag_close'] = '</ul></center>';
-    
+ 
         $config['first_link'] = FALSE;
         $config['last_link'] = FALSE;
-    
+ 
         $config['next_link'] = '下页';
         $config['next_tag_open'] = '<li>';
         $config['next_tag_close'] = '</li>';
-    
+ 
         $config['prev_link'] = '上页';
         $config['prev_tag_open'] = '<li>';
         $config['prev_tag_close'] = '</li>';
-    
+ 
         $config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
         $config['cur_tag_close'] = '</a></li>';
-    
+ 
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
-    
+
         $this->pagination->initialize($config);
         $pass['page']= $this->pagination->create_links();
         $pass['res'] = $item_info['res'];
-        //        var_dump($item_info['res']);
+//        var_dump($item_info['res']);
         $this->load->view('templates/header');
-        $this->load->view('LostFeedback',$pass);
-        $this->load->view('templates/footer');
+		$this->load->view('LostAndFound/FindFeedback',$pass);
+		$this->load->view('templates/footer');
     }
     
     /**
@@ -88,46 +91,50 @@ class Lose extends CI_Controller
     public function showDetail($item_id)
     {
         $personal_data = $this->getname();
-        $this->load->model("Lost");
-        $item_info = $this->Lost->query_one($item_id);
+        $this->load->model("LostAndFound/Found");
+        $item_info = $this->Found->query_one($item_id);
         $front=$item_info['0'];
         if ($personal_data['student_id']==$item_info['0']['student_id'])
         {
             $front['display'] = 'block';
-            $front['action'] = site_url('Lose/updateLose');
-            $retrieve_detail = $this->Lost->query_name_all('retrieve_status');
-            $front['retrieve_select'] = $retrieve_detail;
+            $front['action'] = site_url('LostAndFound/Find/updateFind');
+            $inform_detail = $this->Found->query_name_all('inform_status');
+            $front['inform_select'] = $inform_detail;
+            $receive_detail = $this->Found->query_name_all('receive_status');
+            $front['receive_select'] = $receive_detail;
         }
         else {
             $front['display'] = 'none';
             $front['action'] = '#';
-            $retrieve_detail = $this->Lost->query_name_all('retrieve_status');
-            $front['retrieve_select'] = $retrieve_detail;
+            $inform_detail = $this->Found->query_name_all('inform_status');
+            $front['inform_select'] = $inform_detail;
+            $receive_detail = $this->Found->query_name_all('receive_status');
+            $front['receive_select'] = $receive_detail;
         }
         $this->load->view('templates/header');
-        $this->load->view('LostDetails',$front);
+        $this->load->view('LostAndFound/FindDetails',$front);
         $this->load->view('templates/footer');
     }
     
     /**
      * 新增一个发布
      */
-    public function newLose()
+    public function newFind()
     {
-    
+        
         $personal_data = $this->getname();
-    
+
         if ($personal_data['student_id']=='')
         {
             echo "请先绑定";
             die();
         }
-        $this->load->model("Lost");
-        $res['view'] = $this->Lost->query_name_all('item_type');
+        $this->load->model("LostAndFound/Found");
+        $res['view'] = $this->Found->query_name_all('item_type');
         $res['student_id'] = $personal_data['student_id'];
         $res['name'] = $personal_data['name'];
         $this->load->view('templates/header');
-        $this->load->view('NewLost',$res);
+        $this->load->view('LostAndFound/NewFind',$res);
         $this->load->view('templates/footer');
     }
     
@@ -135,13 +142,13 @@ class Lose extends CI_Controller
      * 更改我发布的物品信息（！！注意，这个方法没有id校验，但入口只存在于 我发布的物品的详情页 ）
      * @param unknown $item_id 物品id
      */
-    public function showUpdateLose($item_id)
+    public function showUpdateFind($item_id)
     {
-        $this->load->model("Lost");
-        $item_info = $this->Lost->query_one($item_id);
+        $this->load->model("LostAndFound/Found");
+        $item_info = $this->Found->query_one($item_id);
         $front=$item_info['0'];
         $this->load->view('templates/header');
-        $this->load->view('UpdateLost',$front);
+        $this->load->view('LostAndFound/UpdateFind',$front);
         $this->load->view('templates/footer');
     }
     
@@ -149,9 +156,9 @@ class Lose extends CI_Controller
      * 用来接收新增数据页面的post
      * 成功后跳转该物品详情页，失败返回新增。
      */
-    public function insertNewLose()
+    public function insertNewFind()
     {
-        $this->load->model("Lost");
+        $this->load->model("LostAndFound/Found");
         $post_data = $this->input->post();
         $post_data['release_name']=trim($post_data['release_name']);
         $post_data['student_id'] = trim($post_data['student_id']);
@@ -160,46 +167,51 @@ class Lose extends CI_Controller
         $post_data['position']=trim($post_data['position']);
         $post_data['time']=trim($post_data['time']);
         $post_data['detail']=trim($post_data['detail']);
-        $post_data['type_id']= $this->Lost->query_name_one('item_type','type_id','category',$post_data['category']);
+        $post_data['type_id']= $this->Found->query_name_one('item_type','type_id','category',$post_data['category']);
         unset($post_data['category']);
-        $post_data['retrieve_id'] = 0;
-        $post_data['retrieve_change_person'] = 'System';
-        $post_data['retrieve_change_time']=date('Y-m-d H:i:s');
-        $res = $this->Lost->insert_one($post_data);
+        $post_data['inform_id'] = 0;
+        $post_data['inform_change_person'] = 'System';
+        $post_data['inform_change_time']=date('Y-m-d H:i:s');
+        $post_data['receive_id'] = 0;
+        $post_data['receive_change_person'] = 'System';
+        $post_data['receive_change_time']=date('Y-m-d H:i:s');
+        $res = $this->Found->insert_one($post_data);
         if  ($res['status'] === 1)
         {
-            redirect("Lose/showDetail/{$res['id']}");
+            redirect("LostAndFound/Find/showDetail/{$res['id']}");
         }
         else {
-            redirect("Lose/newLose");
+            redirect("LostAndFound/Find/newFind");
         }
     }
     /**
      * 用来接更新物品详情的post
      * 也接改变物品通知领取状态的post
      */
-    public function updateLose()
+    public function updateFind()
     {
-        $this->load->model("Lost");
+        $this->load->model("LostAndFound/Found");
         $post_data = $this->input->post();
-        (isset($post_data['tel']))&&($post_data['tel']=trim($post_data['tel']));
+         (isset($post_data['tel']))&&($post_data['tel']=trim($post_data['tel']));
         (isset($post_data['item_name']))&&($post_data['item_name']=trim($post_data['item_name']));
         (isset($post_data['position']))&&($post_data['position']=trim($post_data['position']));
         (isset($post_data['time']))&&($post_data['time']=trim($post_data['time']));
         (isset($post_data['detail']))&&($post_data['detail']=trim($post_data['detail']));
-        $res = $this->Lost->update_one($post_data);
+        $res = $this->Found->update_one($post_data);
         if ($res==1)
         {
-            $url = site_url("Lose/showDetail/{$post_data['item_id']}");
+            $url = site_url("LostAndFound/Find/showDetail/{$post_data['item_id']}");
             echo "<script> alert('更新成功'); </script>";
             echo "<meta http-equiv='Refresh' content='0;URL=$url'>";
         }
         else {
-            $url = site_url("Lose/showDetail/{$post_data['item_id']}");
+            $url = site_url("LostAndFound/Find/showDetail/{$post_data['item_id']}");
             echo "<script> alert('更新失败'); </script>";
             echo "<meta http-equiv='Refresh' content='0;URL=$url'>";
         }
     }
+    
+    
     
 }
 
