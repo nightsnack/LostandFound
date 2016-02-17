@@ -16,6 +16,9 @@ class Lost extends CI_Model
     {
         parent::__construct();
         $this->load->database('default');
+        $this->db->db_select('lost_found');
+        $this->db->db_set_charset('utf8');
+        
     }
 
     /**

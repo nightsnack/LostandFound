@@ -15,15 +15,16 @@ class Info extends CI_Model
 	private $table = "student_basic_information";
 	/* 置空值 */
 	private $empty = "nothing";
-
+	
 	/**
 	 * 构造函数，初始化database，加载aes，设置aes密钥
 	 */
 	function __construct()
 	{
 		parent::__construct();
-
-		$this->load->database('latin1');
+		$this->load->database('default');
+		$this->db->db_select('afwdb');
+		$this->db->db_set_charset('latin1');
 		$this->load->library('aes');  // $this->aes
 		$this->aes->setKey('yiW7BPNI8ax0O39opkKCCFQS');
 	}

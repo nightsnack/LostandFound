@@ -11,7 +11,6 @@ class Person extends CI_Controller
     {
         parent::__construct();
         $this->load->library('pagination');
-        $this->getID();
     }
     
     
@@ -31,14 +30,13 @@ class Person extends CI_Controller
             $this->load->view("Bind");
             die();
         }
-        $this->db->close();
         $this->student_id=$rs['student_id'];
         $this->name=$rs['name'];
-        $this->db->close();
     }
 
     public function myLose($current_page = 1)
     {
+        $this->getID();
         $config['per_page']=$this->per_page;
         $offset   = ($current_page - 1 ) * $config['per_page'];
         $this->load->model('LostAndFound/Lost');
@@ -79,6 +77,7 @@ class Person extends CI_Controller
     
     public function myFind($current_page = 1)
     {
+        $this->getID();
         $config['per_page']=$this->per_page;
         $offset   = ($current_page - 1 ) * $config['per_page'];
         $this->load->model('LostAndFound/Found');

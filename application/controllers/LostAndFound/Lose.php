@@ -30,7 +30,6 @@ class Lose extends CI_Controller
         {
             $rs['student_id']='';
         }
-        $this->db->close();
         return $rs;
     }
     
