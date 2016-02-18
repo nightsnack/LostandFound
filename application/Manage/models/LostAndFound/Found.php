@@ -51,7 +51,7 @@ class Found extends CI_Model
     }
 
     /**
-     * 
+     * 后台管理
      * @param int $offset 开始位置
      * @param int $num 数目
      * @return multitype:array 总数和详情
@@ -59,7 +59,7 @@ class Found extends CI_Model
     
     public function query_all($offset,$num)
     {
-        $this->db->select('a.*,b.name as type,c.name as inform,d.name as receive');
+        $this->db->select('a.item_id as 物品编号,a.item_name as 物品名称 ,b.name as 物品类型,a.student_id as 发布人帐号 ,a.release_name as 发布人姓名,a.tel as 发布人电话,a.position as 捡到地点,a.time as 捡到时间 ,c.name as 通知状态,d.name as 领取状态');
         $this->db->from("$this->table as a");
         $this->db->join('item_type as b', "a.type_id = b.type_id",'inner');
         $this->db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
@@ -72,6 +72,7 @@ class Found extends CI_Model
         $res = $this->db->count_all_results();
         //         if (sizeof($query) == 0)
             //             return '';
+        $this->db->db_select('user');
         
         return  array(
             'total' => $res,
@@ -203,6 +204,7 @@ class Found extends CI_Model
             'res' => $query
         );
     }
+    
     
 }
     
