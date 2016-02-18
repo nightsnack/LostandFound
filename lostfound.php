@@ -113,7 +113,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'application/Manage';
+	$application_folder = 'application/Lost_Found';
 
 /*
  *---------------------------------------------------------------
@@ -128,7 +128,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$view_folder = '';
+	$view_folder = 'application/Lost_Found/view';
 
 
 /*
