@@ -30,7 +30,7 @@ class Find extends CI_Controller
         {
             $rs['student_id']='';
         }
-        $this->db->close();
+//         $this->db->close();
        return $rs;
     }
     
