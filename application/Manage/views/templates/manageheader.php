@@ -13,10 +13,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
+    <link rel="stylesheet" href="<?= base_url('assets/Font-Awesome/css/font-awesome.min.css') ?>">
+        <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url('assets/css/AdminLTE.min.css') ?>">
 
     <link rel="stylesheet" href="<?= base_url('assets/css/skin-red-light.min.css') ?>">
@@ -33,6 +31,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<script src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
         <!-- AdminLTE App -->
     <script src="<?= base_url('assets/js/app.min.js') ?>"></script>
+    <!-- Handlebars.js -->
+    <script src="<?= base_url("assets/js/handlebars-v4.0.5.js"); ?>"></script>
+    
     
   </head>
   <body class="hold-transition skin-red-light sidebar-mini">

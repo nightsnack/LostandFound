@@ -30,10 +30,8 @@ class Person extends CI_Controller
             $this->load->view("bind");
             die();
         }
-        $this->db->close();
         $this->student_id=$rs['student_id'];
         $this->name=$rs['name'];
-        $this->db->close();
     }
     
     public function myLose($current_page = 1)
