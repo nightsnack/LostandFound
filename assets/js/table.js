@@ -2,15 +2,24 @@ $(document).ready(function() {
 	var loadpage_url='http://127.0.0.1/~chiyexiao/LostAndFound/index.php/ManageFind/query_page';
 	var delete_url='http://127.0.0.1/~chiyexiao/LostAndFound/index.php/ManageFind/del_item';
 	var showone_url='http://127.0.0.1/~chiyexiao/LostAndFound/index.php/ManageFind/query_item';
-	$.post(loadpage_url,{pagenum:1} ,function(data){
-		page=data.page;
-		var source   = $("#entry-template").html();
-		var template = Handlebars.compile(source);
-		$('#table1').append(template(data));
-
-    },'json');
 
 
+	$.ajax({
+		  type: 'POST',
+		  async:false,   //设置同步的ajax请求，以便于在执行完ajax之前不执行别的函数
+		  url: loadpage_url,
+		  data: {pagenum:1},
+		  success: function(data){
+				page=data.page;
+				var source   = $("#entry-template").html();
+				var template = Handlebars.compile(source);
+				$('#table1').append(template(data));
+
+		    },
+		  dataType: 'json'
+		});
+
+	
     $(".tcdPageCode").createPage({
         pageCount:2,
         current:1,
@@ -65,9 +74,6 @@ $(document).ready(function() {
 
         });
     
-    
-    
-    
-    
+   
     
 })
