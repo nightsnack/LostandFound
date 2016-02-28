@@ -48,10 +48,12 @@ $(document).ready(function() {
         }
     };
 
+
 	$("a[attr^='delgoods_']").each(function(){
         var tmp = $(this).attr('attr').split('_');
         $(this).bind("click", {item_id:tmp[1]}, delGoods);
     });
+
     
     
     
@@ -61,15 +63,11 @@ $(document).ready(function() {
 	
     $('#myModal').on('show.bs.modal', function () {
     	$.post(showone_url,{item_id:27},function(data){
-            if (data.errno ==0)
-            {
-            	for(var key in data.detail)
+
+            	for(var key in data)
             	{
-            		$('#'+key).attr({"value":data.detail[key]});
+            		$('#'+key).attr({"value":data[key]});
             	}
-            } else {
-                alert(data.error);
-            }
         },'json');
 
         });

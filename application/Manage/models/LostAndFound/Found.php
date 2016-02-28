@@ -89,12 +89,12 @@ class Found extends CI_Model
     
     public function query_one($id)
     {
-        $this->_db->select('a.*,b.name as type,c.name as inform,d.name as receive');//'a.item_name,a.student_id,a.release_name,a.tel,a.position,a.time,a.detail,b.name as type,c.name as inform,
-            //a.inform_change_person,a.inform_change_time,d.name as receive,a.receive_change_person,a.receive_change_time'
+        $this->_db->select('a.item_id,a.student_id,a.release_name, b.name as item_type,a.tel,a.item_name, a.tel,a.position,a.time,a.detail,a.inform_id,a.receive_id');
+//a.item_id as 物品编号,a.student_id as 发布人帐号,a.release_name as 发布人姓名, b.name as 物品类型,a.tel as 发布人电话,a.item_name as 物品名称, a.tel as 发布人电话,a.position as 捡到地点,a.time as 捡到时间,a.detail as 物品详情,c.name as 通知状态,d.name as 领取状态'
         $this->_db->from("$this->table as a");
         $this->_db->join('item_type as b', "a.type_id = b.type_id",'inner');
-        $this->_db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
-        $this->_db->join('receive_status as d', "a.receive_id = d.receive_id",'inner');
+//         $this->_db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
+//         $this->_db->join('receive_status as d', "a.receive_id = d.receive_id",'inner');
         $this->_db->where("a.item_id", $id);
         $query = $this->_db->get()->result_array();
         
@@ -167,7 +167,7 @@ class Found extends CI_Model
     }
 
     /**
-     *
+     *管理端
      * @param array 包含更新的字段和数据
      *            
      * @return int 返回更新成功的个数
@@ -210,7 +210,7 @@ class Found extends CI_Model
             'res' => $query
         );
     }
-    
+
     
 }
     

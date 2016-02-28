@@ -1,0 +1,32 @@
+<script LANGUAGE="javascript">
+
+<!-- Begin
+var checkflag = "false";
+function check(field) {
+if (checkflag == "false") {
+for (i = 0; i < field.length; i++) {
+field[i].checked = true;}
+checkflag = "true";
+return "什么都不选"; }
+else {
+for (i = 0; i < field.length; i++) {
+field[i].checked = false; }
+checkflag = "false";
+return "选中所有"; }
+}
+//  End -->
+</script>
+<form name=myform action="" method=post>
+<table>
+<tr><td>
+<b>请选择下面的选项</b><br>
+<input type=checkbox name=list value="1">Java<br>
+<input type=checkbox name=list value="2">javascript<br>
+<input type=checkbox name=list value="3">ASP<br>
+<input type=checkbox name=list value="4">HTML<br>
+<input type=checkbox name=list value="5">SQL<br>
+<br>                                                   
+<input type=button value="选中所有" onClick="this.value=check(this.form.list)"> 
+</td></tr>
+</table>
+</form>

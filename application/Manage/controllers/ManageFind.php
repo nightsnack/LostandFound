@@ -11,46 +11,15 @@ class ManageFind extends CI_Controller
         parent::__construct();
         $this->load->library('pagination');
         $this->load->model("LostAndFound/Found");
+        $_SESSION['user_id']='Admin';
+        $_SESSION['username']='管理员';
+        $_SESSION['is_admin']=1;
     }
 
     
     public function index($current_page = 1)
     {
-        $config = array();
-        $config['per_page']=$this->per_page;
-        $offset   = ($current_page - 1 ) * $config['per_page'];
-        $item_info = $this->Found->query_all($offset,$config['per_page']);
-        $config['base_url'] = site_url("ManageFind/index");
-        $config['total_rows'] = $item_info['total'];
-        $config['uri_segment'] = 3;
-        $config['num_links'] = 2;
-        $config['use_page_numbers'] = TRUE;
-        
-        $config['full_tag_open'] = '<ul class="pagination">';
-        $config['full_tag_close'] = '</ul>';
-        
-        $config['first_link'] = FALSE;
-        $config['last_link'] = FALSE;
-        
-        $config['next_link'] = '下页';
-        $config['next_tag_open'] = '<li>';
-        $config['next_tag_close'] = '</li>';
-        
-        $config['prev_link'] = '上页';
-        $config['prev_tag_open'] = '<li>';
-        $config['prev_tag_close'] = '</li>';
-        
-        $config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
-        $config['cur_tag_close'] = '</a></li>';
-        
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-        
-        $this->pagination->initialize($config);
-        $pass['page']= $this->pagination->create_links();
-        $pass['res'] = $item_info['res'];
-
-        $this->load->view('MyFind',$pass);
+        $this->load->view('MyFind');
         
     }
     
@@ -88,43 +57,64 @@ class ManageFind extends CI_Controller
         echo json_encode($data);
     }
     
-    function batch_del_wechat_user()
+    function upd_item()
     {
-        $mp_account_id = $this->input->get_post("mp_account_id");
-        $keyword_id = $this->input->get_post("tid");
-    
-        //        $data = array(
-        //            'errno' => 10,
-        //            'error' => json_encode($keyword_id)
-        //        );
-        //        die(json_encode($data));
-    
-        if(!$keyword_id)
+        $post_data = $this->input->post();
+        unset($post_data['item_type']);
+        (isset($post_data['student_id']))&&($post_data['student_id']=trim($post_data['student_id']));
+        (isset($post_data['release_name']))&&($post_data['release_name']=trim($post_data['release_name']));
+        (isset($post_data['tel']))&&($post_data['tel']=trim($post_data['tel']));
+        (isset($post_data['item_name']))&&($post_data['item_name']=trim($post_data['item_name']));
+        (isset($post_data['position']))&&($post_data['position']=trim($post_data['position']));
+        (isset($post_data['time']))&&($post_data['time']=trim($post_data['time']));
+        (isset($post_data['detail']))&&($post_data['detail']=trim($post_data['detail']));
+        $res = $this->Found->query_one($post_data['item_id']);
+        if ($post_data['inform_id']!=$res[0]['inform_id']){
+        $post_data['inform_change_time']=date('Y-m-d H:i:s');
+        $post_data['inform_change_person']=$_SESSION['username'];
+        }
+        if ($post_data['receive_id']!=$res[0]['receive_id']){
+        $post_data['receive_change_time']=date('Y-m-d H:i:s');
+        $post_data['receive_change_person']=$_SESSION['username'];
+        }
+
+        if($this->Found->update_one($post_data))
         {
+            $data = array(
+                'errno' => 0
+            );
+        }
+        else
+        {
+            $data = array(
+                'errno' => 102,
+                'error' => '更新失败，请更新数据。'
+            );
+        }
+        echo json_encode($data);
+    }
+
+    function batchdel_item()
+    {
+        $item_id = $this->input->get_post("item_id");
+        
+        if (! $item_id) {
             $data = array(
                 'errno' => 10,
                 'error' => '参数有误'
             );
             die(json_encode($data));
         }
-    
-        {
-            $mp_id = null;
-            if($this->wechat_user->batch_del_wechat_user($keyword_id, $mp_id))
-            {
-                $data = array(
-                    'errno' => 0
-                );
-            }
-            else
-            {
-                $data = array(
-                    'errno' => 102,
-                    'error' => '删除失败'
-                );
-            }
+        if ($this->Found->batch_del_items($item_id)) {
+            $data = array(
+                'errno' => 0
+            );
+        } else {
+            $data = array(
+                'errno' => 102,
+                'error' => '删除失败'
+            );
         }
-    
         echo json_encode($data);
     }
     
@@ -133,24 +123,40 @@ class ManageFind extends CI_Controller
     {
         $item_id = $this->input->get_post("item_id");
         $res = $this->Found->query_one($item_id);
-        if($res)
+        echo json_encode($res[0]);
+    }
+    
+    function add_item()
+    {
+        $post_data = $this->input->post();
+        (isset($post_data['tel']))&&($post_data['tel']=trim($post_data['tel']));
+        (isset($post_data['item_name']))&&($post_data['item_name']=trim($post_data['item_name']));
+        (isset($post_data['position']))&&($post_data['position']=trim($post_data['position']));
+        (isset($post_data['time']))&&($post_data['time']=trim($post_data['time']));
+        (isset($post_data['detail']))&&($post_data['detail']=trim($post_data['detail']));
+        $post_data['student_id']=$_SESSION['user_id'];
+        $post_data['release_name']=$_SESSION['username'];
+        $post_data['inform_id']=0;
+        $post_data['inform_change_time']=date('Y-m-d H:i:s');
+        $post_data['inform_change_person']=$_SESSION['username'];
+        $post_data['receive_id']=0;
+        $post_data['receive_change_time']=date('Y-m-d H:i:s');
+        $post_data['receive_change_person']=$_SESSION['username'];
+        if($this->Found->insert_one($post_data))
         {
             $data = array(
-                'errno' => 0,
-                'detail'=>$res[0]
+                'errno' => 0
             );
         }
         else
         {
             $data = array(
                 'errno' => 102,
-                'error' => '查找失败'
+                'error' => '新增失败，请再次尝试！'
             );
         }
         echo json_encode($data);
     }
-    
-    
     
     
 }

@@ -53,14 +53,12 @@
 						name="item_name" id="item_name" value="" required> <label>拾到地点：</label>
 					<input class="form-control" type="text" name="position"
 						id="position" placeholder="拾到地点（可不填）" value=""> <label>拾到时间：</label>
-					<input class="form-control" type="text" name="time" id="time"
-						placeholder="拾到时间（可不填）" value=""> <label>物品描述：</label>
-					<textarea class="form-control" name="detail" id="detail"
-						placeholder="物品描述（颜色/体积/重量/形状... 或在下方上传照片）"></textarea>
-					<label>图片详情：</label> <img alt="物品详情"
-						src="http://www.runoob.com/wp-content/themes/runoob/assets/img/runoob-logo@2x.png">
-					<input class="form-control" type="hidden" name="item_id"
-						id="item_id" value="">
+					<input class="form-control" type="text" name="time" id="time" placeholder="拾到时间（可不填）" value="">
+					<label>物品描述：</label>
+					<textarea class="form-control" name="detail" id="detail" placeholder="物品描述（颜色/体积/重量/形状... 或在下方上传照片）"></textarea>
+					<label>图片详情：</label> 
+					<img alt="物品详情" src="http://www.runoob.com/wp-content/themes/runoob/assets/img/runoob-logo@2x.png">
+					<input class="form-control" type="hidden" name="item_id" id="item_id" value="">
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -74,7 +72,6 @@
 	<!-- /.modal -->
 </div>
 
-<p id="div2"></p>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
