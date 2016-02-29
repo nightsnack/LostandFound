@@ -225,6 +225,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <label>物品详情</label>
                         <textarea class="form-control" type="text" v-model="item.detail"></textarea>
                         <label>上传图片</label>
+
+
+                        <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+                        <br/>
+                        <div id="container">
+                            <a id="selectfiles" href="javascript:void(0);" class='btn'>选择文件</a>
+                            <a id="postfiles" href="javascript:void(0);" class='btn'>开始上传</a>
+                        </div>
+                        <form>
+                            <br />
+                            
+                            <input name="test" id="filename" value="">
+                            <br> 隐藏的表单:
+                            <br>
+                            <input type="datetime" id="file0name" name="filename" value="">
+                        <pre id="console"></pre>
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
