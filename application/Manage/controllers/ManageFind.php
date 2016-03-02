@@ -123,12 +123,22 @@ class ManageFind extends CI_Controller
     {
         $item_id = $this->input->get_post("item_id");
         $res = $this->Found->query_one($item_id);
+        if($res[0]['uploadphotos'])
+        {
+            $res[0]['uploadphotos']='http://oss.aifuwu.org/'.$res[0]['uploadphotos'];
+        }
+        else $res[0]['uploadphotos']='http://oss.aifuwu.org/lostfound/126.jpg';
         echo json_encode($res[0]);
     }
     
     function add_item()
     {
         $post_data = $this->input->post();
+        $post_data['item_name']=$this->input->post('item_name');
+        $post_data['tel']=$this->input->post('tel');
+        $post_data['type_id']=$this->input->post('type_id');
+        if($post_data['item_name']&&$post_data['tel']&&$post_data['type_id'])
+        {
         (isset($post_data['tel']))&&($post_data['tel']=trim($post_data['tel']));
         (isset($post_data['item_name']))&&($post_data['item_name']=trim($post_data['item_name']));
         (isset($post_data['position']))&&($post_data['position']=trim($post_data['position']));
@@ -153,6 +163,13 @@ class ManageFind extends CI_Controller
             $data = array(
                 'errno' => 102,
                 'error' => '新增失败，请再次尝试！'
+            );
+        }}
+        else 
+        {
+            $data = array(
+                'errno' => 102,
+                'error' => '请将信息填写完整！'
             );
         }
         echo json_encode($data);
