@@ -33,7 +33,7 @@
     <script src="js/vue.js"></script>
     <script src="js/handlebars-v4.0.5.js"></script>
 
-    <script type="text/javascript" src="js/table.js"></script>
+    <script type="text/javascript" src="js/mylose.js"></script>
     <script type="text/javascript" src="js/jquery.pagination.js"></script>
 
 </head>
@@ -125,28 +125,20 @@
                         <input class="form-control" type="text" v-model="msg.tel">
                         <label>物品名称</label>
                         <input class="form-control" type="text" v-model="msg.item_name">
-                        <label>捡到地点</label>
+                        <label>丢失地点</label>
                         <input class="form-control" type="text" v-model="msg.position">
-                        <label>捡到时间</label>
+                        <label>丢失时间</label>
                         <input class="form-control" type="text" v-model="msg.time">
                         <label>物品详情</label>
                         <textarea class="form-control" type="text" v-model="msg.detail"></textarea>
-                        <label>通知状态</label>
-                        <select class="form-control" v-model="msg.inform_id">
-                            <option value="0">未通知</option>
-                            <option value="1">已通知</option>
-                        </select>
-                        <label>领取状态</label>
-                        <select class="form-control" v-model="msg.receive_id">
-                            <option value="0">未领取</option>
-                            <option value="1">已领取</option>
-                            <option value="2">已移交</option>
+                        <label>找回状态</label>
+                        <select class="form-control" v-model="msg.retrieve_id">
+                            <option value="0">未找回</option>
+                            <option value="1">已找回</option>
                         </select>
                         <label>图片详情</label>
                         <br />
                         <img :src="msg.uploadphotos" alt="上传的图片" width="500">
-
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -186,11 +178,11 @@
                         <label>发布人电话</label>
                         <input class="form-control" type="tel" v-model="item.tel" required>
 
-                        <label>捡到地点</label>
+                        <label>丢失地点</label>
                         <input class="form-control" type="text" v-model="item.position">
-                        <label>捡到时间</label>
+                        <label>丢失时间</label>
                         <input class="form-control" type="text" v-model="item.time">
-                        <label>物品详情</label>
+                        <label>丢失详情</label>
                         <textarea class="form-control" type="text" v-model="item.detail"></textarea>
                         <label>上传图片</label>
                         <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
@@ -226,7 +218,7 @@
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i>控制台</a></li>
                 <li><a href="#">失物招领</a></li>
-                <li class="active">招领启事</li>
+                <li class="active">寻物启事</li>
             </ol>
         </section>
 
@@ -237,7 +229,7 @@
 
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">我的招领启事</h3>
+                            <h3 class="box-title">我的寻物启事</h3>
                         </div>
 
 

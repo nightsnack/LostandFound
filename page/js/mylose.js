@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var baseurl='http://127.0.0.1/~chiyexiao/LostAndFound/index.php/ManageFind/';
+    var baseurl='http://127.0.0.1/~chiyexiao/LostAndFound/index.php/ManageLose/';
     var loadpage_url = baseurl+'query_page';
     var add_url = baseurl+'add_item';
     var delete_url = baseurl+'del_item';

@@ -1,46 +1,41 @@
 <?php
-header("Content-type: text/html;charset=utf-8");
 
-class ManageFind extends CI_Controller
+class ManageLose extends CI_Controller
 {
 
     private $per_page = 15;
-
+    
     private $open_id = 1101;
-
+    
     private $user;
     function __construct()
     {
         parent::__construct();
-        $this->load->model("LostAndFound/Found");
+        $this->load->model("LostAndFound/Lost");
         $this->check_is_login();
     }
-
-    public function index($current_page = 1)
-    {
-        $this->load->view('MyFind');
-    }
-
+    
+    
     public function query_page()
     {
-        $pass['user']=$this->user;
-        
+         $pass['user']=$this->user;
+    
         $current_page = $this->input->get_post("pagenum");
         if (!$current_page) $current_page = 1;
         $offset = ($current_page - 1) * $this->per_page;
-        $item_info = $this->Found->query_all($offset, $this->per_page);
+        $item_info = $this->Lost->query_all($offset, $this->per_page);
         $num_pages = (int) ceil($item_info['total'] / $this->per_page);
         $pass['page'] = $num_pages;
         $pass['res'] = $item_info['res'];
-        
+    
         echo json_encode($pass);
     }
-
+    
     function del_item()
     {
         $item_id = $this->input->get_post("item_id");
-        
-        if ($this->Found->batch_del_items($item_id)) {
+    
+        if ($this->Lost->batch_del_items($item_id)) {
             $data = array(
                 'errno' => 0
             );
@@ -52,7 +47,7 @@ class ManageFind extends CI_Controller
         }
         echo json_encode($data);
     }
-
+    
     function upd_item()
     {
         $post_data = $this->input->post();
@@ -69,17 +64,13 @@ class ManageFind extends CI_Controller
             (isset($post_data['position'])) && ($post_data['position'] = trim($post_data['position']));
             (isset($post_data['time'])) && ($post_data['time'] = trim($post_data['time']));
             (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
-            $res = $this->Found->query_one($post_data['item_id']);
-            if ($post_data['inform_id'] != $res[0]['inform_id']) {
-                $post_data['inform_change_time'] = date('Y-m-d H:i:s');
-                $post_data['inform_change_person'] = $_SESSION['username'];
+            $res = $this->Lost->query_one($post_data['item_id']);
+            if ($post_data['retrieve_id'] != $res[0]['retrieve_id']) {
+                $post_data['retrieve_change_time'] = date('Y-m-d H:i:s');
+                $post_data['retrieve_change_person'] = $_SESSION['username'];
             }
-            if ($post_data['receive_id'] != $res[0]['receive_id']) {
-                $post_data['receive_change_time'] = date('Y-m-d H:i:s');
-                $post_data['receive_change_person'] = $_SESSION['username'];
-            }
-            
-            if ($this->Found->update_one($post_data)) {
+    
+            if ($this->Lost->update_one($post_data)) {
                 $data = array(
                     'errno' => 0
                 );
@@ -97,11 +88,11 @@ class ManageFind extends CI_Controller
         }
         echo json_encode($data);
     }
-
+    
     function batchdel_item()
     {
         $item_id = $this->input->get_post("item_id");
-        
+    
         if (! $item_id) {
             $data = array(
                 'errno' => 10,
@@ -109,7 +100,7 @@ class ManageFind extends CI_Controller
             );
             die(json_encode($data));
         }
-        if ($this->Found->batch_del_items($item_id)) {
+        if ($this->Lost->batch_del_items($item_id)) {
             $data = array(
                 'errno' => 0
             );
@@ -121,11 +112,11 @@ class ManageFind extends CI_Controller
         }
         echo json_encode($data);
     }
-
+    
     function query_item()
     {
         $item_id = $this->input->get_post("item_id");
-        $res = $this->Found->query_one($item_id);
+        $res = $this->Lost->query_one($item_id);
         $res[0]['is_admin']=$this->user['is_admin'];
         if ($res[0]['uploadphotos']) {
             $res[0]['uploadphotos'] = 'http://oss.aifuwu.org/' . $res[0]['uploadphotos'];
@@ -133,7 +124,7 @@ class ManageFind extends CI_Controller
             $res[0]['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/126.jpg';
         echo json_encode($res[0]);
     }
-
+    
     function add_item()
     {
         $post_data = $this->input->post();
@@ -148,13 +139,10 @@ class ManageFind extends CI_Controller
             (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
             $post_data['student_id'] = $_SESSION['user_id'];
             $post_data['release_name'] = $_SESSION['username'];
-            $post_data['inform_id'] = 0;
-            $post_data['inform_change_time'] = date('Y-m-d H:i:s');
-            $post_data['inform_change_person'] = $_SESSION['username'];
-            $post_data['receive_id'] = 0;
-            $post_data['receive_change_time'] = date('Y-m-d H:i:s');
-            $post_data['receive_change_person'] = $_SESSION['username'];
-            if ($this->Found->insert_one($post_data)) {
+            $post_data['retrieve_id'] = 0;
+            $post_data['retrieve_change_time'] = date('Y-m-d H:i:s');
+            $post_data['retrieve_change_person'] = $_SESSION['username'];
+            if ($this->Lost->insert_one($post_data)) {
                 $data = array(
                     'errno' => 0
                 );
@@ -177,7 +165,7 @@ class ManageFind extends CI_Controller
     function check_is_login()
     {
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-        
+    
             $this->user = array(
                 'user_id' => $_SESSION['user_id'],
                 'username' => $_SESSION['username'],
@@ -188,8 +176,10 @@ class ManageFind extends CI_Controller
         else {
             $pass=array();
             $pass['error']=1;
-			echo json_encode($pass);
-			die();
+            echo json_encode($pass);
+            die();
         }
     }
 }
+
+?>

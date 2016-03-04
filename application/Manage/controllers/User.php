@@ -122,7 +122,7 @@ class User extends CI_Controller {
 				$_SESSION['is_admin']     = (bool)$user->is_admin;
 				
 				// user login ok
-				redirect('Main');
+				redirect(base_url('page/Myfind.html'));
 			} else {
 				
 				// login failed
