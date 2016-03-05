@@ -54,8 +54,8 @@ class Find extends CI_Controller
      */
     public function showItems()
     {
-        $item_type = $this->input->get_post("itemtype");
-        $current_page = $this->input->get_post("currentpage");
+        $item_type = $this->input->get_post("item_type");
+        $current_page = $this->input->get_post("current_page");
         if (! $current_page)
             $current_page = 1;
         $offset = ($current_page - 1) * $this->per_page;
@@ -76,7 +76,7 @@ class Find extends CI_Controller
      */
     public function showDetail()
     {
-        $item_id = $this->input->get_post("itemid");
+        $item_id = $this->input->post("item_id");
         $item_info = $this->Found->query_one($item_id);
         $front = $item_info['0'];
         if ($front['uploadphotos']) {
@@ -93,12 +93,12 @@ class Find extends CI_Controller
     /**
      * 更改我发布的物品信息
      * 
-     * @param unknown $item_id
+     * @param unknown $itemid
      *            物品id
      */
     public function showUpdateFind()
     {
-        $item_id = $this->input->get_post("itemid");
+        $item_id = $this->input->get_post("item_id");
         $item_info = $this->Found->query_one($item_id);
         $front = $item_info['0'];
         if ($front['student_id'] !== $_SESSION['student_id'])
@@ -106,10 +106,12 @@ class Find extends CI_Controller
                 'errno' => '101',
                 'error' => '错误入口!'
             );
+            else {
         if ($front['uploadphotos']) {
             $front['uploadphotos'] = 'http://oss.aifuwu.org/' . $front['uploadphotos'];
         } else
             $front['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/126.jpg';
+            }
         echo json_encode($front, JSON_UNESCAPED_UNICODE);
     }
 
@@ -159,13 +161,19 @@ class Find extends CI_Controller
     /**
      * 用来接更新物品详情的post
      * 也接改变物品通知领取状态的post
+     * 前端需要校验的参数 item_name、tel（数据库里设置这个不为0）
+     * 可接受任何参数的更改，但不允许更改
      */
-    function updItem()
+    function updateItem()
     {
         $post_data = $this->input->post();
-        $post_data['item_name'] = $this->input->post('item_name');
-        $post_data['tel'] = $this->input->post('tel');
-        if ($post_data['item_name'] && $post_data['tel']) {
+        $post_data['item_id'] = $this->input->post('item_id');
+        if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
+        {
+            echo "你更改了不该更改的内容";
+            die();
+        }
+        if ($post_data['item_id']) {
             // unset($post_data['item_type']);
             // unset($post_data['uploadphotos']);
             // (isset($post_data['student_id'])) && ($post_data['student_id'] = trim($post_data['student_id']));
@@ -176,11 +184,11 @@ class Find extends CI_Controller
             (isset($post_data['time'])) && ($post_data['time'] = trim($post_data['time']));
             (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
             $res = $this->Found->query_one($post_data['item_id']);
-            if ($post_data['inform_id'] != $res[0]['inform_id']) {
+            if (isset($post_data['inform_id'])&&$post_data['inform_id'] != $res[0]['inform_id']) {
                 $post_data['inform_change_time'] = date('Y-m-d H:i:s');
                 $post_data['inform_change_person'] = $_SESSION['name'];
             }
-            if ($post_data['receive_id'] != $res[0]['receive_id']) {
+            if (isset($post_data['receive_id'])&&$post_data['receive_id'] != $res[0]['receive_id']) {
                 $post_data['receive_change_time'] = date('Y-m-d H:i:s');
                 $post_data['receive_change_person'] = $_SESSION['name'];
             }
@@ -197,7 +205,7 @@ class Find extends CI_Controller
             }
         } else {
             $data = array(
-                'errno' => 102,
+                'errno' => 103,
                 'error' => '请将信息填写完整！'
             );
         }
