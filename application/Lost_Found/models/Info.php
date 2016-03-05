@@ -15,8 +15,6 @@ class Info extends CI_Model
 	private $table = "student_basic_information";
 	/* 置空值 */
 	private $empty = "nothing";
-
-	private $_db;
 	
 	/**
 	 * 构造函数，初始化database，加载aes，设置aes密钥
@@ -25,7 +23,7 @@ class Info extends CI_Model
 	{
 		parent::__construct();
 
-		$this->_db = $this->load->database('latin1',true);
+// 		$this->db = $this->load->database('latin1');
 		$this->load->library('aes');  // $this->aes
 		$this->aes->setKey('yiW7BPNI8ax0O39opkKCCFQS');
 	}
@@ -36,9 +34,9 @@ class Info extends CI_Model
 	 */
 	public function deleteVal($open_id)
 	{
-		$this->_db->delete($this->table, array($this->primary_key => $open_id));
+		$this->db->delete($this->table, array($this->primary_key => $open_id));
 
-		return $this->_db->affected_rows();
+		return $this->db->affected_rows();
 	}
 
 	/**
@@ -55,9 +53,9 @@ class Info extends CI_Model
 				$this->todoEncode($array[$k]);
 			}
 		}
-		$this->_db->update($this->table, $array, array($this->primary_key => $array[$this->primary_key]));
+		$this->db->update($this->table, $array, array($this->primary_key => $array[$this->primary_key]));
 
-		return $this->_db->affected_rows();
+		return $this->db->affected_rows();
 	}
 
 	/**
@@ -75,9 +73,9 @@ class Info extends CI_Model
 				$this->todoEncode($array[$k]);
 			}
 		}
-		$this->_db->insert($this->table, $array);
+		$this->db->insert($this->table, $array);
 
-		return $this->_db->affected_rows();
+		return $this->db->affected_rows();
 	}
 
 	/**
@@ -86,7 +84,7 @@ class Info extends CI_Model
 	 */
 	public function queryVal($open_id)
 	{
-		$arr = $this->_db->get_where($this->table, array($this->primary_key => $open_id))->result_array();
+		$arr = $this->db->get_where($this->table, array($this->primary_key => $open_id))->result_array();
 		if (sizeof($arr) == 0) {
 			return null;
 		} else {

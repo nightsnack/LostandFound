@@ -9,13 +9,14 @@ class Lost extends CI_Model
     /* 表名 */
     private $table = "Lost";
 
+    private $_db;
     /**
      * 构造函数，初始化database，加载aes，设置aes密钥
      */
     function __construct()
     {
         parent::__construct();
-        $this->load->database('default');
+        $this->_db = $this->load->database('lostfound',true);
     }
 
     /**
@@ -31,17 +32,17 @@ class Lost extends CI_Model
      */
     public function query_list($type, $offset, $num)
     {
-        $this->db->select('a.item_id,a.item_name,a.detail,b.name as retrieve');
-        $this->db->from("$this->table as a");
-        $this->db->join('retrieve_status as b', "a.retrieve_id = b.retrieve_id", 'inner');
-        $this->db->order_by($this->primary_key, 'DESC');
-        $this->db->where("a.type_id", $type);
-        $this->db->limit($num, $offset);
-        $query = $this->db->get()->result_array();
+        $this->_db->select('a.item_id,a.item_name,a.detail,b.name as retrieve');
+        $this->_db->from("$this->table as a");
+        $this->_db->join('retrieve_status as b', "a.retrieve_id = b.retrieve_id", 'inner');
+        $this->_db->order_by($this->primary_key, 'DESC');
+        $this->_db->where("a.type_id", $type);
+        $this->_db->limit($num, $offset);
+        $query = $this->_db->get()->result_array();
         
-        $this->db->where("type_id", $type);
-        $this->db->from($this->table);
-        $res = $this->db->count_all_results();
+        $this->_db->where("type_id", $type);
+        $this->_db->from($this->table);
+        $res = $this->_db->count_all_results();
         
         return array(
             'total' => $res,
@@ -51,13 +52,13 @@ class Lost extends CI_Model
 
     public function query_one($id)
     {
-        $this->db->select('a.*,b.name as type,d.name as retrieve'); // 'a.item_name,a.student_id,a.release_name,a.tel,a.position,a.time,a.detail,b.name as type,c.name as inform,
+        $this->_db->select('a.*,b.name as type,d.name as retrieve'); // 'a.item_name,a.student_id,a.release_name,a.tel,a.position,a.time,a.detail,b.name as type,c.name as inform,
                                                                                     // a.inform_change_person,a.inform_change_time,d.name as receive,a.receive_change_person,a.receive_change_time'
-        $this->db->from("$this->table as a");
-        $this->db->join('item_type as b', "a.type_id = b.type_id", 'inner');
-        $this->db->join('retrieve_status as d', "a.retrieve_id = d.retrieve_id", 'inner');
-        $this->db->where("a.item_id", $id);
-        $query = $this->db->get()->result_array();
+        $this->_db->from("$this->table as a");
+        $this->_db->join('item_type as b', "a.type_id = b.type_id", 'inner');
+        $this->_db->join('retrieve_status as d', "a.retrieve_id = d.retrieve_id", 'inner');
+        $this->_db->where("a.item_id", $id);
+        $query = $this->_db->get()->result_array();
         
         // if (sizeof($query) == 0)
         // return '';
@@ -73,10 +74,10 @@ class Lost extends CI_Model
      */
     public function insert_one($data)
     {
-        $this->db->insert($this->table, $data);
+        $this->_db->insert($this->table, $data);
         return array(
-            'id' => $this->db->insert_id(),
-            'status' => $this->db->affected_rows()
+            'id' => $this->_db->insert_id(),
+            'status' => $this->_db->affected_rows()
         );
     }
 
@@ -88,7 +89,7 @@ class Lost extends CI_Model
      */
     public function query_name_all($table_name)
     {
-        $query = $this->db->get($table_name)->result_array();
+        $query = $this->_db->get($table_name)->result_array();
         return $query;
     }
 
@@ -106,10 +107,10 @@ class Lost extends CI_Model
      */
     public function query_name_one($table_name, $select, $key, $value)
     {
-        $this->db->select($select);
-        $this->db->from($table_name);
-        $this->db->where($key, $value);
-        $query = $this->db->get()->result_array();
+        $this->_db->select($select);
+        $this->_db->from($table_name);
+        $this->_db->where($key, $value);
+        $query = $this->_db->get()->result_array();
         return $query['0'][$select];
     }
 
@@ -121,11 +122,11 @@ class Lost extends CI_Model
      */
     public function deleteNotice($notice_id)
     {
-        $this->db->delete($this->table, array(
+        $this->_db->delete($this->table, array(
             $this->primary_key => $notice_id
         ));
         
-        return $this->db->affected_rows();
+        return $this->_db->affected_rows();
     }
 
     /**
@@ -137,10 +138,10 @@ class Lost extends CI_Model
      */
     public function update_one($data)
     {
-        $this->db->update($this->table, $data, array(
+        $this->_db->update($this->table, $data, array(
             $this->primary_key => $data[$this->primary_key]
         ));
-        return $this->db->affected_rows();
+        return $this->_db->affected_rows();
     }
     
     /**
@@ -156,17 +157,17 @@ class Lost extends CI_Model
      */
     public function query_mine($student_id, $offset, $num)
     {
-        $this->db->select('a.item_id,a.item_name,a.detail,b.name as retrieve');
-        $this->db->from("$this->table as a");
-        $this->db->join('retrieve_status as b', "a.retrieve_id = b.retrieve_id", 'inner');
-        $this->db->order_by($this->primary_key, 'DESC');
-        $this->db->where("a.student_id", $student_id);
-        $this->db->limit($num, $offset);
-        $query = $this->db->get()->result_array();
+        $this->_db->select('a.item_id,a.item_name,a.detail,b.name as retrieve');
+        $this->_db->from("$this->table as a");
+        $this->_db->join('retrieve_status as b', "a.retrieve_id = b.retrieve_id", 'inner');
+        $this->_db->order_by($this->primary_key, 'DESC');
+        $this->_db->where("a.student_id", $student_id);
+        $this->_db->limit($num, $offset);
+        $query = $this->_db->get()->result_array();
     
-        $this->db->where("student_id", $student_id);
-        $this->db->from($this->table);
-        $res = $this->db->count_all_results();
+        $this->_db->where("student_id", $student_id);
+        $this->_db->from($this->table);
+        $res = $this->_db->count_all_results();
     
         return array(
             'total' => $res,
