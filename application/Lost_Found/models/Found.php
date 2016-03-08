@@ -26,7 +26,7 @@ class Found extends CI_Model
  * @return array:total 当前项总数量
  *               res   详情结果（数组）
  */
-    public function query_list($type,$offset,$num)
+    public function query_list($type)//,$offset,$num
     {
         $this->_db->select('a.item_id,a.item_name,c.name as inform,d.name as receive');
         $this->_db->from("$this->table as a");
@@ -34,15 +34,15 @@ class Found extends CI_Model
         $this->_db->join('receive_status as d', "a.receive_id = d.receive_id",'inner');
         $this->_db->order_by($this->primary_key, 'DESC');
         $this->_db->where("a.type_id", $type);
-        $this->_db->limit($num,$offset);
+//        $this->_db->limit($num,$offset);
         $query = $this->_db->get()->result_array();
         
         $this->_db->where("type_id", $type);
         $this->_db->from($this->table);
-        $res = $this->_db->count_all_results();
+//         $res = $this->_db->count_all_results();
 
         return  array(
-            'total' => $res,
+//             'total' => $res,
             'res' => $query
             );
     }

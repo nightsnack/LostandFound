@@ -55,16 +55,15 @@ class Find extends CI_Controller
     public function showItems()
     {
         $item_type = $this->input->get_post("item_type");
-        $current_page = $this->input->get_post("current_page");
-        if (! $current_page)
-            $current_page = 1;
-        $offset = ($current_page - 1) * $this->per_page;
-        ;
-        $item_info = $this->Found->query_list($item_type, $offset, $this->per_page);
-        $num_pages = (int) ceil($item_info['total'] / $this->per_page);
+//         $current_page = $this->input->get_post("current_page");
+//         if (! $current_page)
+//             $current_page = 1;
+//         $offset = ($current_page - 1) * $this->per_page;
+        $item_info = $this->Found->query_list($item_type);//, $offset, $this->per_page
+//         $num_pages = (int) ceil($item_info['total'] / $this->per_page);
         
         $pass['res'] = $item_info['res'];
-        $pass['pages'] = $num_pages;
+//         $pass['pages'] = $num_pages;
         echo json_encode($pass, JSON_UNESCAPED_UNICODE);
     }
 
