@@ -54,7 +54,7 @@ class Find extends CI_Controller
      */
     public function showItems()
     {
-        $item_type = $this->input->get_post("item_type");
+        $item_type = $this->input->post("item_type");
 //         $current_page = $this->input->get_post("current_page");
 //         if (! $current_page)
 //             $current_page = 1;
@@ -83,9 +83,10 @@ class Find extends CI_Controller
         } else
             $front['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/126.jpg';
         if ($_SESSION['student_id'] == $item_info['0']['student_id']) {
+            $front['is_mine'] = 1;
             $front['inform_select'] = $this->Found->query_name_all('inform_status');
             $front['receive_select'] = $this->Found->query_name_all('receive_status');
-        }
+        }else $front['is_mine'] = 0;
         echo json_encode($front, JSON_UNESCAPED_UNICODE);
     }
 
