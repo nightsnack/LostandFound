@@ -2,205 +2,200 @@
 
 class Lose extends CI_Controller
 {
-    private $per_page = 5;
+
+    private $per_page = 10;
+
     private $open_id = 1101;
-    
+
+
     function __construct()
     {
         parent::__construct();
-        $this->load->library('pagination');
+        $this->load->model("Lost");
+        $_SESSION['open_id'] = 1101;
+        $this->getname();
     }
-    
-    public function index()
-    {
-        $this->load->view('templates/header');
-        $this->load->view('Lost');
-        $this->load->view('templates/footer');
-    }
-    
+
+
     /**
-     *         查询用户学号和名字
+     * 查询用户学号和名字
+     * 
      * @return array 表内全部内容
      */
-    function getname()
+    private function getname()
     {
         $this->load->model('Info');
         $rs = $this->Info->queryVal($this->open_id);
-        if (empty($rs['name'])||$rs['name']=='nothing')
-        {
-            $rs['student_id']='';
+        if (empty($rs['name']) || $rs['name'] == 'nothing') {
+            $data = array(
+                'errno' => '100',
+                'error' => '请绑定'
+            );
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
         }
-        $this->db->close();
-        return $rs;
+        $_SESSION['student_id'] = $rs['student_id'];
+        $_SESSION['name'] = $rs['name'];
     }
-    
+
     /**
      * 展示当前类型的全部内容，分页
-     * @param number $item_type 类型数字
-     * @param number $current_page 页码
+     * 
+     * @param
+     *            number item_type 类型数字
+     * @param
+     *            number current_page 页码
      */
-    public function showItems($item_type,$current_page = 1)
+    public function showItems()
     {
-        $this->load->model("Lost");
-        $config = array();
-        $config['per_page']=$this->per_page;
-        $offset   = ($current_page - 1 ) * $config['per_page'];
-        $item_info = $this->Lost->query_list($item_type,$offset,$config['per_page']);
-        $config['base_url'] = site_url("Lose/showItems/$item_type");
-        $config['total_rows'] = $item_info['total'];
-        $config['uri_segment'] = 4;
-        $config['num_links'] = 2;
-        $config['use_page_numbers'] = TRUE;
-    
-        $config['full_tag_open'] = '<center><ul class="pagination">';
-        $config['full_tag_close'] = '</ul></center>';
-    
-        $config['first_link'] = FALSE;
-        $config['last_link'] = FALSE;
-    
-        $config['next_link'] = '下页';
-        $config['next_tag_open'] = '<li>';
-        $config['next_tag_close'] = '</li>';
-    
-        $config['prev_link'] = '上页';
-        $config['prev_tag_open'] = '<li>';
-        $config['prev_tag_close'] = '</li>';
-    
-        $config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
-        $config['cur_tag_close'] = '</a></li>';
-    
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-    
-        $this->pagination->initialize($config);
-        $pass['page']= $this->pagination->create_links();
+        $item_type = $this->input->post("item_type");
+//         $current_page = $this->input->get_post("current_page");
+//         if (! $current_page)
+//             $current_page = 1;
+//         $offset = ($current_page - 1) * $this->per_page;
+        $item_info = $this->Lost->query_list($item_type);//, $offset, $this->per_page
+//         $num_pages = (int) ceil($item_info['total'] / $this->per_page);
+        
         $pass['res'] = $item_info['res'];
-        //        var_dump($item_info['res']);
-        $this->load->view('templates/header');
-        $this->load->view('LostFeedback',$pass);
-        $this->load->view('templates/footer');
+//         $pass['pages'] = $num_pages;
+        echo json_encode($pass, JSON_UNESCAPED_UNICODE);
     }
-    
+
     /**
      * 显示当前物品详情，判断用户是否是发布用户
-     * @param number $item_id 物品id
+     * 
+     * @param
+     *            number itemid 物品id
      */
-    public function showDetail($item_id)
+    public function showDetail()
     {
-        $personal_data = $this->getname();
-        $this->load->model("Lost");
+        $item_id = $this->input->post("item_id");
         $item_info = $this->Lost->query_one($item_id);
-        $front=$item_info['0'];
-        if ($personal_data['student_id']==$item_info['0']['student_id'])
-        {
-            $front['display'] = 'block';
-            $front['action'] = site_url('Lose/updateLose');
-            $retrieve_detail = $this->Lost->query_name_all('retrieve_status');
-            $front['retrieve_select'] = $retrieve_detail;
-        }
-        else {
-            $front['display'] = 'none';
-            $front['action'] = '#';
-            $retrieve_detail = $this->Lost->query_name_all('retrieve_status');
-            $front['retrieve_select'] = $retrieve_detail;
-        }
-        $this->load->view('templates/header');
-        $this->load->view('LostDetails',$front);
-        $this->load->view('templates/footer');
+        $front = $item_info['0'];
+        if ($front['uploadphotos']) {
+            $front['uploadphotos'] = 'http://oss.aifuwu.org/' . $front['uploadphotos'];
+        } else
+            $front['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/126.jpg';
+        if ($_SESSION['student_id'] == $item_info['0']['student_id']) {
+            $front['is_mine'] = 1;
+            $front['retrieve_select'] = $this->Lost->query_name_all('retrieve_status');
+        }else $front['is_mine'] = 0;
+        echo json_encode($front, JSON_UNESCAPED_UNICODE);
     }
-    
+
     /**
-     * 新增一个发布
+     * 更改我发布的物品信息
+     * 
+     * @param unknown $itemid
+     *            物品id
      */
-    public function newLose()
+    public function showUpdateLose()
     {
-    
-        $personal_data = $this->getname();
-    
-        if ($personal_data['student_id']=='')
-        {
-            echo "请先绑定";
-            die();
-        }
-        $this->load->model("Lost");
-        $res['view'] = $this->Lost->query_name_all('item_type');
-        $res['student_id'] = $personal_data['student_id'];
-        $res['name'] = $personal_data['name'];
-        $this->load->view('templates/header');
-        $this->load->view('NewLost',$res);
-        $this->load->view('templates/footer');
+        $item_id = $this->input->get_post("item_id");
+        $item_info = $this->Lost->update_query_one($item_id);
+        $front = $item_info['0'];
+        if ($front['student_id'] !== $_SESSION['student_id'])
+            $front = array(
+                'errno' => '101',
+                'error' => '错误入口!'
+            );
+            else {
+        if ($front['uploadphotos']) {
+            $front['uploadphotos'] = 'http://oss.aifuwu.org/' . $front['uploadphotos'];
+        } else
+            $front['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/126.jpg';
+            }
+        echo json_encode($front, JSON_UNESCAPED_UNICODE);
     }
-    
-    /**
-     * 更改我发布的物品信息（！！注意，这个方法没有id校验，但入口只存在于 我发布的物品的详情页 ）
-     * @param unknown $item_id 物品id
-     */
-    public function showUpdateLose($item_id)
-    {
-        $this->load->model("Lost");
-        $item_info = $this->Lost->query_one($item_id);
-        $front=$item_info['0'];
-        $this->load->view('templates/header');
-        $this->load->view('UpdateLost',$front);
-        $this->load->view('templates/footer');
-    }
-    
+
     /**
      * 用来接收新增数据页面的post
-     * 成功后跳转该物品详情页，失败返回新增。
+     * 成功后返回0，失败返回错误代码。
      */
-    public function insertNewLose()
+    function insertItem()
     {
-        $this->load->model("Lost");
         $post_data = $this->input->post();
-        $post_data['release_name']=trim($post_data['release_name']);
-        $post_data['student_id'] = trim($post_data['student_id']);
-        $post_data['tel']=trim($post_data['tel']);
-        $post_data['item_name']=trim($post_data['item_name']);
-        $post_data['position']=trim($post_data['position']);
-        $post_data['time']=trim($post_data['time']);
-        $post_data['detail']=trim($post_data['detail']);
-        $post_data['type_id']= $this->Lost->query_name_one('item_type','type_id','category',$post_data['category']);
-        unset($post_data['category']);
-        $post_data['retrieve_id'] = 0;
-        $post_data['retrieve_change_person'] = 'System';
-        $post_data['retrieve_change_time']=date('Y-m-d H:i:s');
-        $res = $this->Lost->insert_one($post_data);
-        if  ($res['status'] === 1)
-        {
-            redirect("Lose/showDetail/{$res['id']}");
+        $post_data['item_name'] = $this->input->post('item_name');
+        $post_data['tel'] = $this->input->post('tel');
+        $post_data['type_id'] = $this->input->post('type_id');
+        if ($post_data['item_name'] && $post_data['tel'] && $post_data['type_id']) {
+            (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
+            (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
+            (isset($post_data['position'])) && ($post_data['position'] = trim($post_data['position']));
+            (isset($post_data['time'])) && ($post_data['time'] = trim($post_data['time']));
+            (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
+            $post_data['student_id'] = $_SESSION['student_id'];
+            $post_data['release_name'] = $_SESSION['name'];
+            $post_data['retrieve_id'] = 0;
+            $post_data['retrieve_change_time'] = date('Y-m-d H:i:s');
+            $post_data['retrieve_change_person'] = $_SESSION['name'];
+            if ($this->Lost->insert_one($post_data)) {
+                $data = array(
+                    'errno' => 0
+                );
+            } else {
+                $data = array(
+                    'errno' => 102,
+                    'error' => '新增失败，请再次尝试！'
+                );
+            }
+        } else {
+            $data = array(
+                'errno' => 103,
+                'error' => '请将信息填写完整！'
+            );
         }
-        else {
-            redirect("Lose/newLose");
-        }
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
     }
+
     /**
      * 用来接更新物品详情的post
      * 也接改变物品通知领取状态的post
+     * 前端需要校验的参数 item_name、tel（数据库里设置这个不为0）
+     * 可接受任何参数的更改，但不允许更改student_id release_name type_id
      */
-    public function updateLose()
+    function updateItem()
     {
-        $this->load->model("Lost");
         $post_data = $this->input->post();
-        (isset($post_data['tel']))&&($post_data['tel']=trim($post_data['tel']));
-        (isset($post_data['item_name']))&&($post_data['item_name']=trim($post_data['item_name']));
-        (isset($post_data['position']))&&($post_data['position']=trim($post_data['position']));
-        (isset($post_data['time']))&&($post_data['time']=trim($post_data['time']));
-        (isset($post_data['detail']))&&($post_data['detail']=trim($post_data['detail']));
-        $res = $this->Lost->update_one($post_data);
-        if ($res==1)
+        $post_data['item_id'] = $this->input->post('item_id');
+        if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
         {
-            $url = site_url("Lose/showDetail/{$post_data['item_id']}");
-            echo "<script> alert('更新成功'); </script>";
-            echo "<meta http-equiv='Refresh' content='0;URL=$url'>";
+            echo "你更改了不该更改的内容";
+            die();
         }
-        else {
-            $url = site_url("Lose/showDetail/{$post_data['item_id']}");
-            echo "<script> alert('更新失败'); </script>";
-            echo "<meta http-equiv='Refresh' content='0;URL=$url'>";
+        if ($post_data['item_id']) {
+            // unset($post_data['item_type']);
+            // unset($post_data['uploadphotos']);
+            // (isset($post_data['student_id'])) && ($post_data['student_id'] = trim($post_data['student_id']));
+            // (isset($post_data['release_name'])) && ($post_data['release_name'] = trim($post_data['release_name']));
+            (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
+            (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
+            (isset($post_data['position'])) && ($post_data['position'] = trim($post_data['position']));
+            (isset($post_data['time'])) && ($post_data['time'] = trim($post_data['time']));
+            (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
+            $res = $this->Lost->query_one($post_data['item_id']);
+            if (isset($post_data['retrieve_id'])&&$post_data['retrieve_id'] != $res[0]['retrieve_id']) {
+                $post_data['retrieve_change_time'] = date('Y-m-d H:i:s');
+                $post_data['retrieve_change_person'] = $_SESSION['name'];
+            }
+            
+            if ($this->Lost->update_one($post_data)) {
+                $data = array(
+                    'errno' => 0
+                );
+            } else {
+                $data = array(
+                    'errno' => 102,
+                    'error' => '更新失败，请更新数据。'
+                );
+            }
+        } else {
+            $data = array(
+                'errno' => 103,
+                'error' => '请将信息填写完整！'
+            );
         }
+        echo json_encode($data);
     }
-    
 }
 
 ?>

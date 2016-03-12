@@ -30,26 +30,32 @@ class Lost extends CI_Model
      * @return array:total 当前项总数量
      *         res 详情结果（数组）
      */
-    public function query_list($type, $offset, $num)
+    public function query_list($type)//, $offset, $num
     {
         $this->_db->select('a.item_id,a.item_name,a.detail,b.name as retrieve');
         $this->_db->from("$this->table as a");
         $this->_db->join('retrieve_status as b', "a.retrieve_id = b.retrieve_id", 'inner');
         $this->_db->order_by($this->primary_key, 'DESC');
         $this->_db->where("a.type_id", $type);
-        $this->_db->limit($num, $offset);
+//         $this->_db->limit($num, $offset);
         $query = $this->_db->get()->result_array();
         
         $this->_db->where("type_id", $type);
         $this->_db->from($this->table);
-        $res = $this->_db->count_all_results();
+//         $res = $this->_db->count_all_results();
         
         return array(
-            'total' => $res,
+//             'total' => $res,
             'res' => $query
         );
     }
 
+    /**
+     * 查询单个物品 的全部详情
+     * @param unknown $id 物品id 
+     * @return unknown  详情数组
+     */
+    
     public function query_one($id)
     {
         $this->_db->select('a.*,b.name as type,d.name as retrieve'); // 'a.item_name,a.student_id,a.release_name,a.tel,a.position,a.time,a.detail,b.name as type,c.name as inform,
@@ -60,12 +66,21 @@ class Lost extends CI_Model
         $this->_db->where("a.item_id", $id);
         $query = $this->_db->get()->result_array();
         
-        // if (sizeof($query) == 0)
-        // return '';
-        
         return $query;
     }
+    
+    public function update_query_one($id)
+    {
+        $this->_db->select('a.item_id,a.student_id,a.release_name, b.name as item_type,a.tel,a.item_name, a.tel,a.position,a.time,a.detail,a.retrieve_id,a.uploadphotos');
 
+        $this->_db->from("$this->table as a");
+        $this->_db->join('item_type as b', "a.type_id = b.type_id",'inner');
+        $this->_db->where("a.item_id", $id);
+            $query = $this->_db->get()->result_array();
+    
+            return  $query;
+    }
+    
     /**
      *
      * @param array $data
@@ -114,20 +129,6 @@ class Lost extends CI_Model
         return $query['0'][$select];
     }
 
-    /**
-     *
-     * @param $open_id String
-     *            微信号
-     * @return int 返回删除成功的个数
-     */
-    public function deleteNotice($notice_id)
-    {
-        $this->_db->delete($this->table, array(
-            $this->primary_key => $notice_id
-        ));
-        
-        return $this->_db->affected_rows();
-    }
 
     /**
      *
@@ -155,22 +156,22 @@ class Lost extends CI_Model
      * @return array:total 当前项总数量
      *         res 详情结果（数组）
      */
-    public function query_mine($student_id, $offset, $num)
+    public function query_mine($student_id)//, $offset, $num
     {
         $this->_db->select('a.item_id,a.item_name,a.detail,b.name as retrieve');
         $this->_db->from("$this->table as a");
         $this->_db->join('retrieve_status as b', "a.retrieve_id = b.retrieve_id", 'inner');
         $this->_db->order_by($this->primary_key, 'DESC');
         $this->_db->where("a.student_id", $student_id);
-        $this->_db->limit($num, $offset);
+//         $this->_db->limit($num, $offset);
         $query = $this->_db->get()->result_array();
     
-        $this->_db->where("student_id", $student_id);
-        $this->_db->from($this->table);
-        $res = $this->_db->count_all_results();
+//         $this->_db->where("student_id", $student_id);
+//         $this->_db->from($this->table);
+//         $res = $this->_db->count_all_results();
     
         return array(
-            'total' => $res,
+//             'total' => $res,
             'res' => $query
         );
     }

@@ -7,7 +7,6 @@ class Find extends CI_Controller
 
     private $open_id = 1101;
 
-    private $user;
 
     function __construct()
     {
@@ -15,13 +14,6 @@ class Find extends CI_Controller
         $this->load->model("Found");
         $_SESSION['open_id'] = 1101;
         $this->getname();
-    }
-
-    public function index()
-    {
-        $this->load->view('templates/header');
-        $this->load->view('Find');
-        $this->load->view('templates/footer');
     }
 
     /**
@@ -99,7 +91,7 @@ class Find extends CI_Controller
     public function showUpdateFind()
     {
         $item_id = $this->input->get_post("item_id");
-        $item_info = $this->Found->query_one($item_id);
+        $item_info = $this->Found->update_query_one($item_id);
         $front = $item_info['0'];
         if ($front['student_id'] !== $_SESSION['student_id'])
             $front = array(

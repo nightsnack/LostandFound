@@ -51,18 +51,33 @@ class Found extends CI_Model
     
     public function query_one($id)
     {
-        $this->_db->select('a.item_id,a.student_id,a.release_name, b.name as item_type,a.tel,a.item_name, a.tel,a.position,a.time,a.detail,a.inform_id,a.receive_id,a.uploadphotos');//'a.item_name,a.student_id,a.release_name,a.tel,a.position,a.time,a.detail,b.name as type,c.name as inform,
+        $this->_db->select('a.*,b.name as type,c.name as inform,d.name as receive');//'a.item_name,a.student_id,a.release_name,a.tel,a.position,a.time,a.detail,b.name as type,c.name as inform,
             //a.inform_change_person,a.inform_change_time,d.name as receive,a.receive_change_person,a.receive_change_time'
         $this->_db->from("$this->table as a");
         $this->_db->join('item_type as b', "a.type_id = b.type_id",'inner');
-//         $this->_db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
-//         $this->_db->join('receive_status as d', "a.receive_id = d.receive_id",'inner');
+         $this->_db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
+         $this->_db->join('receive_status as d', "a.receive_id = d.receive_id",'inner');
         $this->_db->where("a.item_id", $id);
         $query = $this->_db->get()->result_array();
         
-//         if (sizeof($query) == 0)
-//             return '';
 
+        return  $query;
+    }
+    
+    public function update_query_one($id)
+    {
+        $this->_db->select('a.item_id,a.student_id,a.release_name, b.name as item_type,a.tel,a.item_name, a.tel,a.position,a.time,a.detail,a.inform_id,a.receive_id,a.uploadphotos');//'a.item_name,a.student_id,a.release_name,a.tel,a.position,a.time,a.detail,b.name as type,c.name as inform,
+        //a.inform_change_person,a.inform_change_time,d.name as receive,a.receive_change_person,a.receive_change_time'
+        $this->_db->from("$this->table as a");
+        $this->_db->join('item_type as b', "a.type_id = b.type_id",'inner');
+//         $this->_db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
+        //         $this->_db->join('receive_status as d', "a.receive_id = d.receive_id",'inner');
+        $this->_db->where("a.item_id", $id);
+        $query = $this->_db->get()->result_array();
+    
+        //         if (sizeof($query) == 0)
+            //             return '';
+    
         return  $query;
     }
 
@@ -153,22 +168,22 @@ class Found extends CI_Model
      * @return array:total 当前项总数量
      *         res 详情结果（数组）
      */
-    public function query_mine($student_id, $offset, $num)
+    public function query_mine($student_id)//, $offset, $num
     {
         $this->_db->select('a.item_id,a.item_name,a.detail,b.name as receive');
         $this->_db->from("$this->table as a");
         $this->_db->join('receive_status as b', "a.receive_id = b.receive_id", 'inner');
         $this->_db->order_by($this->primary_key, 'DESC');
         $this->_db->where("a.student_id", $student_id);
-        $this->_db->limit($num, $offset);
+//         $this->_db->limit($num, $offset);
         $query = $this->_db->get()->result_array();
     
-        $this->_db->where("student_id", $student_id);
-        $this->_db->from($this->table);
-        $res = $this->_db->count_all_results();
+//         $this->_db->where("student_id", $student_id);
+//         $this->_db->from($this->table);
+//         $res = $this->_db->count_all_results();
     
         return array(
-            'total' => $res,
+//             'total' => $res,
             'res' => $query
         );
     }
