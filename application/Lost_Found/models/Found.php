@@ -28,7 +28,7 @@ class Found extends CI_Model
  */
     public function query_list($type)//,$offset,$num
     {
-        $this->_db->select('a.item_id,a.item_name,c.name as inform,d.name as receive');
+        $this->_db->select('a.item_id,a.item_name,a.detail,c.name as inform,d.name as receive');
         $this->_db->from("$this->table as a");
         $this->_db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
         $this->_db->join('receive_status as d', "a.receive_id = d.receive_id",'inner');
@@ -170,9 +170,10 @@ class Found extends CI_Model
      */
     public function query_mine($student_id)//, $offset, $num
     {
-        $this->_db->select('a.item_id,a.item_name,a.detail,b.name as receive');
+        $this->_db->select('a.item_id,a.item_name,a.detail,c.name as inform,b.name as receive');
         $this->_db->from("$this->table as a");
         $this->_db->join('receive_status as b', "a.receive_id = b.receive_id", 'inner');
+        $this->_db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
         $this->_db->order_by($this->primary_key, 'DESC');
         $this->_db->where("a.student_id", $student_id);
 //         $this->_db->limit($num, $offset);
