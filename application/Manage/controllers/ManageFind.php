@@ -28,7 +28,11 @@ class ManageFind extends CI_Controller
         $current_page = $this->input->get_post("pagenum");
         if (!$current_page) $current_page = 1;
         $offset = ($current_page - 1) * $this->per_page;
-        $item_info = $this->Found->query_all($offset, $this->per_page);
+        if ($_SESSION['is_admin'] == 1) {
+            $item_info = $this->Found->query_all($offset, $this->per_page);
+        } else {
+            $item_info = $this->Found->query_all_user($offset, $this->per_page, $_SESSION['name']);
+        }
         $num_pages = (int) ceil($item_info['total'] / $this->per_page);
         $pass['page'] = $num_pages;
         $pass['res'] = $item_info['res'];
@@ -40,6 +44,11 @@ class ManageFind extends CI_Controller
     {
         $item_id = $this->input->get_post("item_id");
         
+        $res = $this->Found->query_one($item_id);
+        if ($_SESSION['is_admin']==0) {
+            if ($res[0]['student_id'] !== $_SESSION['name'])
+                die('{"errno":101,"error":"非法进入！"}');
+        }
         if ($this->Found->batch_del_items($item_id)) {
             $data = array(
                 'errno' => 0
@@ -60,8 +69,8 @@ class ManageFind extends CI_Controller
         $post_data['tel'] = $this->input->post('tel');
         if ($post_data['item_name'] && $post_data['tel']) {
             unset($post_data['item_type']);
-            unset($post_data['is_admin']);
             unset($post_data['uploadphotos']);
+            unset($post_data['is_admin']);
             (isset($post_data['student_id'])) && ($post_data['student_id'] = trim($post_data['student_id']));
             (isset($post_data['release_name'])) && ($post_data['release_name'] = trim($post_data['release_name']));
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
@@ -70,6 +79,10 @@ class ManageFind extends CI_Controller
             (isset($post_data['time'])) && ($post_data['time'] = trim($post_data['time']));
             (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
             $res = $this->Found->query_one($post_data['item_id']);
+            if ($_SESSION['is_admin']==0) {
+                if ($res[0]['student_id'] !== $_SESSION['name'])
+                    die('{"errno":101,"error":"非法进入！"}');
+            }
             if ($post_data['inform_id'] != $res[0]['inform_id']) {
                 $post_data['inform_change_time'] = date('Y-m-d H:i:s');
                 $post_data['inform_change_person'] = $_SESSION['username'];
@@ -101,7 +114,7 @@ class ManageFind extends CI_Controller
     function batchdel_item()
     {
         $item_id = $this->input->get_post("item_id");
-        
+
         if (! $item_id) {
             $data = array(
                 'errno' => 10,
@@ -109,6 +122,15 @@ class ManageFind extends CI_Controller
             );
             die(json_encode($data));
         }
+        
+        $batch = $this->Found->query_batch($item_id);
+        foreach ($batch as $item)
+        {
+            if($item["student_id"] !==$_SESSION['name'] ){
+                die('{"errno":101,"error":"非法进入！"}');
+            }
+        }
+        
         if ($this->Found->batch_del_items($item_id)) {
             $data = array(
                 'errno' => 0
@@ -130,7 +152,7 @@ class ManageFind extends CI_Controller
         if ($res[0]['uploadphotos']) {
             $res[0]['uploadphotos'] = 'http://oss.aifuwu.org/' . $res[0]['uploadphotos'];
         } else
-            $res[0]['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/126.jpg';
+            $res[0]['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/default.jpg';
         echo json_encode($res[0]);
     }
 
@@ -179,9 +201,9 @@ class ManageFind extends CI_Controller
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
         
             $this->user = array(
-                'user_id' => $_SESSION['user_id'],
                 'username' => $_SESSION['username'],
                 'logged_in' => $_SESSION['logged_in'],
+                'name' => $_SESSION['name'],
                 'is_admin' => $_SESSION['is_admin']
             );
         }

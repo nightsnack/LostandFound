@@ -1,20 +1,19 @@
 $(document).ready(function () {
-    var baseurl='http://127.0.0.1/~chiyexiao/LostAndFound/index.php/ManageFind/';
-    var loadpage_url = baseurl+'query_page';
-    var add_url = baseurl+'add_item';
-    var delete_url = baseurl+'del_item';
-    var showone_url = baseurl+'query_item';
-    var upd_url = baseurl+'upd_item';
-    var batchdelurl = baseurl+'batchdel_item';
+    var baseurl = 'http://127.0.0.1/~chiyexiao/LostAndFound/index.php/ManageFind/';
+    var loadpage_url = baseurl + 'query_page';
+    var add_url = baseurl + 'add_item';
+    var delete_url = baseurl + 'del_item';
+    var showone_url = baseurl + 'query_item';
+    var upd_url = baseurl + 'upd_item';
+    var batchdelurl = baseurl + 'batchdel_item';
     var login_url = 'http://127.0.0.1/~chiyexiao/LostAndFound/index.php/User/login';
     var logout_url = 'http://127.0.0.1/~chiyexiao/LostAndFound/index.php/user/logout';
     var page;
 
     var pagehead = new Vue({
-        el: '#pagehead'
-        , data: {
-        }
-        , methods: {
+        el: '#pagehead',
+        data: {},
+        methods: {
             logout: function () {
                 window.location.href = logout_url;
             }
@@ -22,18 +21,15 @@ $(document).ready(function () {
     })
 
     var pagemain = new Vue({
-        el: '#pagemain'
-        , data: {
-
-        }
-        , methods: {
+        el: '#pagemain',
+        data: {},
+        methods: {
             deletegood: function (id) {
                 delGoods(id);
-            }
-            , editgood: function (id) {
+            },
+            editgood: function (id) {
                 BindModel(id);
             }
-
         }
     })
 
@@ -41,13 +37,13 @@ $(document).ready(function () {
     //更新当前列表
     function Ajaxpage(pagenum) {
         $.ajax({
-            type: 'POST'
-            , async: false, //设置同步的ajax请求，以便于在执行完ajax之前不执行别的函数
-            url: loadpage_url
-            , data: {
+            type: 'POST',
+            async: false, //设置同步的ajax请求，以便于在执行完ajax之前不执行别的函数
+            url: loadpage_url,
+            data: {
                 pagenum: pagenum
-            }
-            , success: function (data) {
+            },
+            success: function (data) {
 
                 if (data.error) {
                     window.location.href = login_url;
@@ -57,17 +53,17 @@ $(document).ready(function () {
                 pagemain.$data = data;
                 pagehead.$data = data.user;
                 Bindclick();
-            }
-            , dataType: 'json'
+            },
+            dataType: 'json'
         });
     }
     Ajaxpage(1);
 
     //生成页码
     $(".tcdPageCode").createPage({
-        pageCount: page
-        , current: 1
-        , backFn: function (p) {
+        pageCount: page,
+        current: 1,
+        backFn: function (p) {
             pagemain.$data = {};
             Ajaxpage(p);
         }
@@ -89,11 +85,11 @@ $(document).ready(function () {
     }
     //初始化模态框
     var model = new Vue({
-        el: '#abc'
-        , data: {
+        el: '#abc',
+        data: {
             msg: ''
-        }
-        , methods: {
+        },
+        methods: {
             submit: function () {
                 $.post(upd_url, model.$data.msg, function (back) {
                     if (back.errno == 0) {
@@ -113,11 +109,11 @@ $(document).ready(function () {
 
     //初始化模态框 新增物品
     var addvm = new Vue({
-        el: '#new'
-        , data: {
+        el: '#new',
+        data: {
             item: {}
-        }
-        , methods: {
+        },
+        methods: {
             submit: function () {
                 $.post(add_url, addvm.$data.item, function (back) {
                     if (back.errno == 0) {
@@ -263,44 +259,44 @@ $(document).ready(function () {
             var d = new Date();
             var datestring = d.toISOString();
             new_multipart_params = {
-                'key': key + datestring + '${filename}'
-                , 'policy': policyBase64
-                , 'OSSAccessKeyId': accessid
-                , 'success_action_status': '200', //让服务端返回200,不然，默认会返回204
-                'callback': callbackbody
-                , 'signature': signature
-            , };
+                'key': key + datestring + '${filename}',
+                'policy': policyBase64,
+                'OSSAccessKeyId': accessid,
+                'success_action_status': '200', //让服务端返回200,不然，默认会返回204
+                'callback': callbackbody,
+                'signature': signature,
+            };
 
             up.setOption({
-                'url': host
-                , 'multipart_params': new_multipart_params
+                'url': host,
+                'multipart_params': new_multipart_params
             });
             //uploader.start();
         }
     }
 
     var uploader = new plupload.Uploader({
-        runtimes: 'html5,flash,silverlight,html4'
-        , browse_button: 'selectfiles'
-        , filters: {
+        runtimes: 'html5,flash,silverlight,html4',
+        browse_button: 'selectfiles',
+        filters: {
             mime_types: [ //只允许上传图片和zip文件
                 {
-                    title: "Image files"
-                    , extensions: "jpg,bmp,gif,png,jpeg,JPG,JPEG,BMP,PNG"
+                    title: "Image files",
+                    extensions: "jpg,bmp,gif,png,jpeg,JPG,JPEG,BMP,PNG"
             }
-      ]
-            , max_file_size: '10000kb', //最大只能上传400kb的文件
+      ],
+            max_file_size: '10000kb', //最大只能上传400kb的文件
             prevent_duplicates: true //不允许选取重复文件
-        }
-        , resize: {
-            width: 1080
-            , quality: 90
-            , preserve_headers: true
-        }
-        , multi_selection: false
-        , container: document.getElementById('container')
-        , flash_swf_url: 'lib/plupload-2.1.2/js/Moxie.swf'
-        , silverlight_xap_url: 'lib/plupload-2.1.2/js/Moxie.xap',
+        },
+        resize: {
+            width: 1080,
+            quality: 90,
+            preserve_headers: true
+        },
+        multi_selection: false,
+        container: document.getElementById('container'),
+        flash_swf_url: 'lib/plupload-2.1.2/js/Moxie.swf',
+        silverlight_xap_url: 'lib/plupload-2.1.2/js/Moxie.xap',
 
         url: 'http://oss.aliyuncs.com',
 

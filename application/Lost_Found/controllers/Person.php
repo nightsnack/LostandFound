@@ -2,7 +2,6 @@
 
 class Person extends CI_Controller
 {
-    private $open_id = 1101;
     private $per_page=5;
 
     
@@ -22,14 +21,21 @@ class Person extends CI_Controller
      */
     private function getname()
     {
+        if(!$_SESSION['open_id'])
+        {
+            die('{"errno":101,"error":"非法进入！"}');
+        }
+        
         $this->load->model('Info');
-        $rs = $this->Info->queryVal($this->open_id);
+        $rs = $this->Info->queryVal($_SESSION['open_id']);
         if (empty($rs['name']) || $rs['name'] == 'nothing') {
             $data = array(
                 'errno' => '100',
                 'error' => '请绑定'
             );
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            die();
+            
         }
         $_SESSION['student_id'] = $rs['student_id'];
         $_SESSION['name'] = $rs['name'];

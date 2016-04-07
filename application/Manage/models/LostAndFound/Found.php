@@ -77,6 +77,37 @@ class Found extends CI_Model
             'res' => $query
         );
     }
+    
+    /**
+     * 后台管理
+     * @param int $offset 开始位置
+     * @param int $num 数目
+     * @return multitype:array 总数和详情
+     */
+    
+    public function query_all_user($offset,$num,$name)
+    {
+        $this->_db->select('a.item_id as 物品编号,a.item_name as 物品名称 ,b.name as 物品类型,a.student_id as 发布人帐号 ,a.release_name as 发布人姓名,a.tel as 发布人电话,a.position as 捡到地点,a.time as 捡到时间 ,c.name as 通知状态,d.name as 领取状态');
+        $this->_db->from("$this->table as a");
+        $this->_db->join('item_type as b', "a.type_id = b.type_id",'inner');
+        $this->_db->join('inform_status as c', "a.inform_id = c.inform_id",'inner');
+        $this->_db->join('receive_status as d', "a.receive_id = d.receive_id",'inner');
+        
+        $this->_db->where('a.student_id', $name);
+        $this->_db->order_by($this->primary_key, 'DESC');
+        $this->_db->limit($num,$offset);
+        $query = $this->_db->get()->result_array();
+    
+        $this->_db->from($this->table);
+        $this->_db->where('student_id', $name);
+        $res = $this->_db->count_all_results();
+        //         if (sizeof($query) == 0)
+        //             return '';
+        return  array(
+            'total' => $res,
+            'res' => $query
+        );
+    }
 
     
     function batch_del_items($id)
@@ -86,6 +117,11 @@ class Found extends CI_Model
         return $this->_db->delete($this->table);
     }
     
+    function query_batch($id)
+    {
+        $this->_db->where_in($this->primary_key, $id);
+        return $this->_db->get($this->table)->result_array();
+    }
     
     public function query_one($id)
     {

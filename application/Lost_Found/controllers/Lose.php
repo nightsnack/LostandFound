@@ -5,7 +5,6 @@ class Lose extends CI_Controller
 
     private $per_page = 10;
 
-    private $open_id = 1101;
 
 
     function __construct()
@@ -24,14 +23,19 @@ class Lose extends CI_Controller
      */
     private function getname()
     {
+        if(!$_SESSION['open_id'])
+        {
+            die('{"errno":101,"error":"非法进入！"}');
+        }
         $this->load->model('Info');
-        $rs = $this->Info->queryVal($this->open_id);
+        $rs = $this->Info->queryVal($_SESSION['open_id']);
         if (empty($rs['name']) || $rs['name'] == 'nothing') {
             $data = array(
                 'errno' => '100',
                 'error' => '请绑定'
             );
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            die();
         }
         $_SESSION['student_id'] = $rs['student_id'];
         $_SESSION['name'] = $rs['name'];
@@ -72,9 +76,9 @@ class Lose extends CI_Controller
         $item_info = $this->Lost->query_one($item_id);
         $front = $item_info['0'];
         if ($front['uploadphotos']) {
-            $front['uploadphotos'] = 'http://oss.aifuwu.org/' . $front['uploadphotos'];
+            $front['uploadphotos'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@720w';
         } else
-            $front['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/126.jpg';
+            $front['uploadphotos'] = 'http://image.aifuwu.org/lostfound/default.jpg@720w';
         if ($_SESSION['student_id'] == $item_info['0']['student_id']) {
             $front['is_mine'] = 1;
             $front['retrieve_select'] = $this->Lost->query_name_all('retrieve_status');
@@ -173,6 +177,8 @@ class Lose extends CI_Controller
             (isset($post_data['time'])) && ($post_data['time'] = trim($post_data['time']));
             (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
             $res = $this->Lost->query_one($post_data['item_id']);
+            if ($res[0]['student_id'] !== $_SESSION['student_id'])
+                die('{"errno":101,"error":"非法进入！"}');
             if (isset($post_data['retrieve_id'])&&$post_data['retrieve_id'] != $res[0]['retrieve_id']) {
                 $post_data['retrieve_change_time'] = date('Y-m-d H:i:s');
                 $post_data['retrieve_change_person'] = $_SESSION['name'];

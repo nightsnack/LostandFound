@@ -61,16 +61,16 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav" id="pagehead">
                     <li class="dropdown user user-menu">
-                                        <a class="dropdown-toggle">
-                  <span class="hidden-xs"><b>欢迎您，{{username}}</b></span>
-                </a>
+                        <a class="dropdown-toggle">
+                            <span class="hidden-xs"><b>欢迎您，{{name}}</b></span>
+                        </a>
                     </li>
-              <li>
-                <a href data-toggle="control-sidebar" v-on:click='logout'><i class="fa fa-sign-out fa-lg"></i></a>
-              </li>
+                    <li>
+                        <a href data-toggle="control-sidebar" v-on:click='logout'><i class="fa fa-sign-out fa-lg"></i></a>
+                    </li>
                 </ul>
             </div>
-            
+
         </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
@@ -243,27 +243,27 @@
                             </a>
                             <table id="pagemain" class="table table-bordered table-striped">
 
-                                    <thead>
-                                        <tr>
-                                            <th class="with-checkbox">
-                                                <input type="checkbox" name="checkedAll" id="checkedAll">
-                                            </th>
-                                            <th v-for="name in res[0]">{{ $key }}</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="item in res">
-                                            <td class="with-checkbox">
-                                                <input type="checkbox" id="checkbox" value="{{item.物品编号}}">
-                                            </td>
-                                            <td v-for="value in item" >{{value}}</td>
-                                            <td>
-                                                <a href="" class="btn1" data-toggle="modal" data-target="#myModal" v-on:click="editgood(item.物品编号)"><i class="fa fa-pencil-square-o "></i></a>
-                                                <a href="javascript:void(0)" class="btn1" v-on:click="deletegood(item.物品编号)"><i class="fa fa-trash-o"></i></a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                <thead>
+                                    <tr>
+                                        <th class="with-checkbox">
+                                            <input type="checkbox" name="checkedAll" id="checkedAll">
+                                        </th>
+                                        <th v-for="name in res[0]">{{ $key }}</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in res">
+                                        <td class="with-checkbox">
+                                            <input type="checkbox" id="checkbox" value="{{item.物品编号}}">
+                                        </td>
+                                        <td v-for="value in item">{{value}}</td>
+                                        <td>
+                                            <a href="" class="btn1" data-toggle="modal" data-target="#myModal" v-on:click="editgood(item.物品编号)"><i class="fa fa-pencil-square-o "></i></a>
+                                            <a href="javascript:void(0)" class="btn1" v-on:click="deletegood(item.物品编号)"><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
 
                             </table>
                         </div>
