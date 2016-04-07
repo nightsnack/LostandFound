@@ -6,8 +6,6 @@ class ManageFind extends CI_Controller
 
     private $per_page = 15;
 
-    private $open_id = 1101;
-
     private $user;
     function __construct()
     {
