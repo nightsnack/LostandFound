@@ -98,7 +98,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'	=> 'mysql:dbname=wechat_manager;host=rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com;port=3306',
-    'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com/',
+    'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com',
     'username' => 'wechat_manager',
     'password' => 'aifuwu2014',
     'port'     => '3306',
@@ -144,7 +144,7 @@ $db['default'] = array(
 
 $db['lostfound'] = array(
     'dsn'	=> 'mysql:dbname=lost_found;host=rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com;port=3306',
-    'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com/',
+    'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com',
     'username' => 'wechat_manager',
     'password' => 'aifuwu2014',
     'port'     => '3306',
