@@ -32,6 +32,11 @@ $(document).ready(function () {
             }
         }
     })
+    
+    var sidebar = new Vue({
+        el: '#sidebar',
+        data: {}
+    })
 
 
     //更新当前列表
@@ -52,6 +57,7 @@ $(document).ready(function () {
                 page = data.page;
                 pagemain.$data = data;
                 pagehead.$data = data.user;
+                sidebar.$data  = data.user;
                 Bindclick();
             },
             dataType: 'json'

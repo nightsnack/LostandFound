@@ -33,7 +33,7 @@
     <script src="js/vue.js"></script>
     <script src="js/handlebars-v4.0.5.js"></script>
 
-    <script type="text/javascript" src="js/mylose.js"></script>
+    <script type="text/javascript" src="js/App/mylose.js"></script>
     <script type="text/javascript" src="js/jquery.pagination.js"></script>
 
 </head>
@@ -74,7 +74,7 @@
         </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
+    <aside class="main-sidebar" id="sidebar">
 
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
@@ -89,6 +89,8 @@
                         <li class="active"><a href="#"><i class="fa fa-list"></i>寻物启事</a></li>
                     </ul>
                 </li>
+                <li v-show="is_admin"><a href="Admin.html"><i class="fa fa-dashboard"></i> <span>用户管理</span></a></li>
+                <li><a href="Password.html"><i class="fa fa-dashboard"></i> <span>修改密码</span></a></li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -280,10 +282,10 @@
     <footer class="main-footer">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
-            <a href="www.aifuwu.org">加入我们</a>
+            <a href="http://www.aifuwu.org">加入我们</a>
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2014-2016 <a href="www.aifuwu.org">iService Studio</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2014-2016 <a href="http://www.aifuwu.org">iService Studio</a>.</strong> All rights reserved.
     </footer>
 
 </body>

@@ -41,7 +41,6 @@
 							<?php if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) : ?>
 								<li><a href="<?php echo site_url('user/logout') ?>">注销</a></li>
 							<?php else : ?>
-								<li><a href="<?php echo site_url('user/register') ?>">注册</a></li>
 								<li><a href="<?php echo site_url('user/login') ?>">登陆</a></li>
 							<?php endif; ?>
 						</ul>
