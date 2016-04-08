@@ -73,36 +73,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['lostfound'] = array(
-	'dsn'	=> '',
-	'hostname' => '127.0.0.1',
-	'username' => 'root',
-	'password' => 'root',
-    'port'     => '3306',
-	'database' => 'lost_found',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
+// $db['lostfound'] = array(
+// 	'dsn'	=> '',
+// 	'hostname' => '127.0.0.1',
+// 	'username' => 'root',
+// 	'password' => 'root',
+//     'port'     => '3306',
+// 	'database' => 'lost_found',
+// 	'dbdriver' => 'mysqli',
+// 	'dbprefix' => '',
+// 	'pconnect' => FALSE,
+// 	'db_debug' => (ENVIRONMENT !== 'production'),
+// 	'cache_on' => FALSE,
+// 	'cachedir' => '',
+// 	'char_set' => 'utf8',
+// 	'dbcollat' => 'utf8_general_ci',
+// 	'swap_pre' => '',
+// 	'encrypt' => FALSE,
+// 	'compress' => FALSE,
+// 	'stricton' => FALSE,
+// 	'failover' => array(),
+// 	'save_queries' => TRUE
+// );
 
-$db['online'] = array(
-    'dsn'	=> '',
-    'hostname' => 'localhost',
-    'username' => '',
-    'password' => '',
-    'port'     => '',
-    'database' => '',
+$db['lostfound'] = array(
+    'dsn'	=> 'mysql:dbname=lost_found;host=rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com;port=3306',
+    'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com/',
+    'username' => 'wechat_manager',
+    'password' => 'aifuwu2014',
+    'port'     => '3306',
+    'database' => 'lost_found',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
@@ -119,14 +119,37 @@ $db['online'] = array(
     'save_queries' => TRUE
 );
 
+// $db['default'] = array(
+// 	'dsn'	=> '',
+// 	'hostname' => '127.0.0.1',
+// 	'username' => 'root',
+// 	'password' => 'root',
+//     'port'     => '3306',
+// 	'database' => 'afwdb',
+// 	'dbdriver' => 'mysqli',
+//     'dbprefix' => '',
+//     'pconnect' => FALSE,
+//     'db_debug' => (ENVIRONMENT !== 'production'),
+//     'cache_on' => FALSE,
+//     'cachedir' => '',
+//     'char_set' => 'latin1',
+//     'dbcollat' => 'latin1_general_ci',
+//     'swap_pre' => '',
+//     'encrypt' => FALSE,
+//     'compress' => FALSE,
+//     'stricton' => FALSE,
+//     'failover' => array(),
+//     'save_queries' => TRUE
+// );
+
 $db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => '127.0.0.1',
-	'username' => 'root',
-	'password' => 'root',
+    'dsn' => 'mysql:dbname=wechat;host=rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com;port=3306',
+    'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com',
     'port'     => '3306',
-	'database' => 'afwdb',
-	'dbdriver' => 'mysqli',
+    'username' => 'wechat',
+    'password' => 'aifuwu2014',
+    'database' => 'wechat',
+    'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
     'db_debug' => (ENVIRONMENT !== 'production'),

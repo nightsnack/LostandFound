@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $baseUrl = str_replace('\\','/',dirname($_SERVER['SCRIPT_NAME']));
 $baseUrl = trim($baseUrl,'/');
 $config['base_url'] = empty($baseUrl) ? '/' : "/$baseUrl/";
-$config['base_url'] = 'http://127.0.0.1/~chiyexiao/LostAndFound/';
+// $config['base_url'] = 'http://127.0.0.1/~chiyexiao/LostAndFound/';
 
 /*
 |--------------------------------------------------------------------------
