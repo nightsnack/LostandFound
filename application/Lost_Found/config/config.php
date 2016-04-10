@@ -37,7 +37,7 @@ $config['base_url'] = empty($baseUrl) ? '/' : "/$baseUrl/";
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
