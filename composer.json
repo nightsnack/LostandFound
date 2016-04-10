@@ -1,0 +1,19 @@
+{
+  "name" : "AppManager",
+  "description" : "The CodeIgniter framework",
+  "require" : {
+    "php" : ">=5.2.4"
+  },
+  "require-dev" : {
+    "mikey179/vfsStream" : "1.1.*"
+  },
+  "license" : "MIT",
+  "type" : "project",
+  "support" : {
+    "forum" : "http://forum.codeigniter.com/",
+    "wiki" : "https://github.com/bcit-ci/CodeIgniter/wiki",
+    "irc" : "irc://irc.freenode.net/codeigniter",
+    "source" : "https://github.com/bcit-ci/CodeIgniter"
+  },
+  "homepage" : "https://codeigniter.com"
+}
