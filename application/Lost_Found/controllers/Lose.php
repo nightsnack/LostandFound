@@ -1,11 +1,5 @@
 <?php
 
-header("Content-type: text/html;charset=utf-8");
-header('Access-Control-Allow-Origin:*');
-header("Access-Control-Allow-Credentials: true");
-header('Access-Control-Allow-Headers: X-Requested-With');
-header('Access-Control-Allow-Headers: Content-Type');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 class Lose extends CI_Controller
 {
 
@@ -35,13 +29,25 @@ class Lose extends CI_Controller
         }
         $this->load->model('Info');
         $rs = $this->Info->queryVal($_SESSION['open_id']);
-        if (empty($rs['name']) || $rs['name'] == 'nothing') {
+        if ($rs==NULL)
+        {
             $data = array(
-                'errno' => '100',
-                'error' => '请绑定'
+                'errno' => '1000',
+                'error' => '请传入open_id和student_id和zhxy_psw绑定',
+                'open_id' => $_SESSION['open_id']
             );
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
             die();
+        }
+        if (empty($rs['name']) || $rs['name'] == 'nothing') {
+            $data = array(
+                'errno' => '1001',
+                'error' => '请传入open_id和zhxy_psw绑定',
+                'open_id' => $_SESSION['open_id']
+            );
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            die();
+            
         }
         $_SESSION['student_id'] = $rs['student_id'];
         $_SESSION['name'] = $rs['name'];
