@@ -11,7 +11,7 @@ class Lose extends CI_Controller
     {
         parent::__construct();
         $this->load->model("Lost");
-        $_SESSION['open_id'] = 1101;
+//         $_SESSION['open_id'] = 1101;
         $this->getname();
     }
 

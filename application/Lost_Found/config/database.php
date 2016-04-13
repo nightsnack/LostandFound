@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
-/*
+
 $db['lostfound'] = array(
 	'dsn'	=> '',
 	'hostname' => '127.0.0.1',
@@ -95,8 +95,8 @@ $db['lostfound'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-*/
 
+/*
 $db['lostfound'] = array(
     'dsn'	=> 'mysql:dbname=lost_found;host=rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com;port=3306',
     'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com',
@@ -119,8 +119,8 @@ $db['lostfound'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
- 
-/*
+ */
+
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => '127.0.0.1',
@@ -143,8 +143,8 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
-*/
 
+/*
 $db['default'] = array(
     'dsn' => 'mysql:dbname=wechat;host=rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com;port=3306',
     'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com',
@@ -167,3 +167,4 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
+*/

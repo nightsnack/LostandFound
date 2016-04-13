@@ -12,7 +12,7 @@ class Find extends CI_Controller
         parent::__construct();
         $this->load->model("Found");
 //         echo $_SESSION['open_id'] = 1101;
-        echo $_SESSION['open_id'];
+//         echo $_SESSION['open_id'];
         $this->getname();
     }
 

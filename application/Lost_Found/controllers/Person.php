@@ -8,7 +8,7 @@ class Person extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $_SESSION['open_id'] = 1201;
+//         $_SESSION['open_id'] = "1101";
         
         $this->getname();
     }
