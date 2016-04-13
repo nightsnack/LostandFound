@@ -1,5 +1,12 @@
 <?php
 
+header("Content-type: text/html;charset=utf-8");
+header('Access-Control-Allow-Origin:*');
+header("Access-Control-Allow-Credentials: true");
+header('Access-Control-Allow-Headers: X-Requested-With');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+
 class Find extends CI_Controller
 {
 

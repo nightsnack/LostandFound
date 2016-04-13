@@ -1,5 +1,11 @@
 <?php
 
+header("Content-type: text/html;charset=utf-8");
+header('Access-Control-Allow-Origin:*');
+header("Access-Control-Allow-Credentials: true");
+header('Access-Control-Allow-Headers: X-Requested-With');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 class Person extends CI_Controller
 {
     private $per_page=5;
@@ -8,7 +14,7 @@ class Person extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $_SESSION['open_id'] = 1101;
+        $_SESSION['open_id'] = 1201;
         
         $this->getname();
     }
@@ -19,7 +25,7 @@ class Person extends CI_Controller
      * 
      * @return NULL 
      */
-    private function getname()
+     function getname()
     {
         if(!$_SESSION['open_id'])
         {
@@ -28,10 +34,20 @@ class Person extends CI_Controller
         
         $this->load->model('Info');
         $rs = $this->Info->queryVal($_SESSION['open_id']);
+//         var_dump($rs);
+        if ($rs==NULL)
+        {
+            $data = array(
+                'errno' => '1000',
+                'error' => '请传入open_id和student_id和zhxy_psw绑定'
+            );
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            die();
+        }
         if (empty($rs['name']) || $rs['name'] == 'nothing') {
             $data = array(
-                'errno' => '100',
-                'error' => '请绑定'
+                'errno' => '1001',
+                'error' => '请传入open_id和zhxy_psw绑定'
             );
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
             die();
