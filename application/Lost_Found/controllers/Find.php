@@ -63,7 +63,7 @@ class Find extends CI_Controller
      */
     public function showItems()
     {
-        $item_type = $this->input->post("item_type");
+        $item_type = (int)$this->input->post("item_type");
 //         $current_page = $this->input->get_post("current_page");
 //         if (! $current_page)
 //             $current_page = 1;
@@ -85,7 +85,7 @@ class Find extends CI_Controller
     public function showDetail()
     {
         $this->getname();
-        $item_id = $this->input->post("item_id");
+        $item_id = (int)$this->input->post("item_id");
         $item_info = $this->Found->query_one($item_id);
         $front = $item_info['0'];
         if ($front['uploadphotos']) {
@@ -109,7 +109,7 @@ class Find extends CI_Controller
     public function showUpdateFind()
     {
         $this->getname();
-        $item_id = $this->input->get_post("item_id");
+        $item_id = (int)$this->input->get_post("item_id");
         $item_info = $this->Found->update_query_one($item_id);
         $front = $item_info['0'];
         if ($front['student_id'] !== $_SESSION['student_id'])
@@ -136,7 +136,7 @@ class Find extends CI_Controller
         $post_data = $this->input->post();
         $post_data['item_name'] = $this->input->post('item_name');
         $post_data['tel'] = $this->input->post('tel');
-        $post_data['type_id'] = $this->input->post('type_id');
+        $post_data['type_id'] = (int)$this->input->post('type_id');
         if ($post_data['item_name'] && $post_data['tel'] && $post_data['type_id']) {
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
             (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
@@ -180,7 +180,7 @@ class Find extends CI_Controller
     {
         $this->getname();
         $post_data = $this->input->post();
-        $post_data['item_id'] = $this->input->post('item_id');
+        $post_data['item_id'] = (int)$this->input->post('item_id');
         if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
         {
             echo "你更改了不该更改的内容";
