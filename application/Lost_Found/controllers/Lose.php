@@ -184,11 +184,11 @@ class Lose extends CI_Controller
 
         $input = file_get_contents("php://input");
         $post_data = json_decode($input,TRUE);
-        if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
-        {
-            echo "你更改了不该更改的内容";
-            die();
-        }
+//         if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
+//         {
+//             echo "你更改了不该更改的内容";
+//             die();
+//         }
         if ($post_data['item_id']) {
             // unset($post_data['item_type']);
             // unset($post_data['uploadphotos']);

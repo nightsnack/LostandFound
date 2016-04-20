@@ -183,11 +183,11 @@ class Find extends CI_Controller
         $this->getname();
         $input = file_get_contents("php://input");
         $post_data = json_decode($input,TRUE);
-        if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
-        {
-            echo "你更改了不该更改的内容";
-            die();
-        }
+//         if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
+//         {
+//             echo "你更改了不该更改的内容";
+//             die();
+//         }
         if ($post_data['item_id']) {
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
             (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
