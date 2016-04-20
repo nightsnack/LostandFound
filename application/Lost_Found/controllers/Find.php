@@ -11,9 +11,9 @@ class Find extends CI_Controller
     {
         parent::__construct();
         $this->load->model("Found");
-//         echo $_SESSION['open_id'] = 1101;
+        $_SESSION['open_id'] = 1101;
 //         echo $_SESSION['open_id'];
-        $this->getname();
+        
     }
 
     /**
@@ -84,6 +84,7 @@ class Find extends CI_Controller
      */
     public function showDetail()
     {
+        $this->getname();
         $item_id = $this->input->post("item_id");
         $item_info = $this->Found->query_one($item_id);
         $front = $item_info['0'];
@@ -107,6 +108,7 @@ class Find extends CI_Controller
      */
     public function showUpdateFind()
     {
+        $this->getname();
         $item_id = $this->input->get_post("item_id");
         $item_info = $this->Found->update_query_one($item_id);
         $front = $item_info['0'];
@@ -130,6 +132,7 @@ class Find extends CI_Controller
      */
     function insertItem()
     {
+        $this->getname();
         $post_data = $this->input->post();
         $post_data['item_name'] = $this->input->post('item_name');
         $post_data['tel'] = $this->input->post('tel');
@@ -175,6 +178,7 @@ class Find extends CI_Controller
      */
     function updateItem()
     {
+        $this->getname();
         $post_data = $this->input->post();
         $post_data['item_id'] = $this->input->post('item_id');
         if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))

@@ -9,7 +9,6 @@ class Person extends CI_Controller
     {
         parent::__construct();
 //         $_SESSION['open_id'] = "1101";
-        
         $this->getname();
     }
     

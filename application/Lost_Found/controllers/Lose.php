@@ -11,8 +11,7 @@ class Lose extends CI_Controller
     {
         parent::__construct();
         $this->load->model("Lost");
-//         $_SESSION['open_id'] = 1101;
-        $this->getname();
+        $_SESSION['open_id'] = 1101;
     }
 
 
@@ -84,6 +83,7 @@ class Lose extends CI_Controller
      */
     public function showDetail()
     {
+        $this->getname();
         $item_id = $this->input->post("item_id");
         $item_info = $this->Lost->query_one($item_id);
         $front = $item_info['0'];
@@ -106,6 +106,7 @@ class Lose extends CI_Controller
      */
     public function showUpdateLose()
     {
+        $this->getname();
         $item_id = $this->input->get_post("item_id");
         $item_info = $this->Lost->update_query_one($item_id);
         $front = $item_info['0'];
@@ -129,6 +130,7 @@ class Lose extends CI_Controller
      */
     function insertItem()
     {
+        $this->getname();
         $post_data = $this->input->post();
         $post_data['item_name'] = $this->input->post('item_name');
         $post_data['tel'] = $this->input->post('tel');
@@ -171,6 +173,7 @@ class Lose extends CI_Controller
      */
     function updateItem()
     {
+        $this->getname();
         $post_data = $this->input->post();
         $post_data['item_id'] = $this->input->post('item_id');
         if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
