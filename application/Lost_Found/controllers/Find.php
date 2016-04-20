@@ -5,8 +5,6 @@ class Find extends CI_Controller
 
     private $per_page = 10;
 
-
-
     function __construct()
     {
         parent::__construct();
@@ -62,8 +60,11 @@ class Find extends CI_Controller
      *            number current_page 页码
      */
     public function showItems()
-    {
-        $item_type = (int)$this->input->post("item_type");
+    {        
+        $input = file_get_contents("php://input");
+        $json = json_decode($input);
+        (! empty($json->item_type)) ? ($item_type = $json->item_type) : die('{"errno":103,"error":"请将信息填写完整！"}');
+        
 //         $current_page = $this->input->get_post("current_page");
 //         if (! $current_page)
 //             $current_page = 1;
@@ -109,7 +110,10 @@ class Find extends CI_Controller
     public function showUpdateFind()
     {
         $this->getname();
-        $item_id = (int)$this->input->get_post("item_id");
+//         $item_id = (int)$this->input->get_post("item_id");
+        $input = file_get_contents("php://input");
+        $json = json_decode($input);
+        (! empty($json->item_id)) ? ($item_id = $json->item_id) : die('{"errno":103,"error":"请将信息填写完整！"}');
         $item_info = $this->Found->update_query_one($item_id);
         $front = $item_info['0'];
         if ($front['student_id'] !== $_SESSION['student_id'])
@@ -133,10 +137,8 @@ class Find extends CI_Controller
     function insertItem()
     {
         $this->getname();
-        $post_data = $this->input->post();
-        $post_data['item_name'] = $this->input->post('item_name');
-        $post_data['tel'] = $this->input->post('tel');
-        $post_data['type_id'] = (int)$this->input->post('type_id');
+        $input = file_get_contents("php://input");
+        $post_data = json_decode($input,TRUE);        
         if ($post_data['item_name'] && $post_data['tel'] && $post_data['type_id']) {
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
             (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
@@ -179,18 +181,14 @@ class Find extends CI_Controller
     function updateItem()
     {
         $this->getname();
-        $post_data = $this->input->post();
-        $post_data['item_id'] = (int)$this->input->post('item_id');
+        $input = file_get_contents("php://input");
+        $post_data = json_decode($input,TRUE);
         if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
         {
             echo "你更改了不该更改的内容";
             die();
         }
         if ($post_data['item_id']) {
-            // unset($post_data['item_type']);
-            // unset($post_data['uploadphotos']);
-            // (isset($post_data['student_id'])) && ($post_data['student_id'] = trim($post_data['student_id']));
-            // (isset($post_data['release_name'])) && ($post_data['release_name'] = trim($post_data['release_name']));
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
             (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
             (isset($post_data['position'])) && ($post_data['position'] = trim($post_data['position']));

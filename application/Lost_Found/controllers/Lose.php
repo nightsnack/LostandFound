@@ -62,7 +62,10 @@ class Lose extends CI_Controller
      */
     public function showItems()
     {
-        $item_type = (int)$this->input->post("item_type");
+        $input = file_get_contents("php://input");
+        $post_data = json_decode($input,TRUE);
+        $item_type = $post_data["item_type"];
+        
 //         $current_page = $this->input->get_post("current_page");
 //         if (! $current_page)
 //             $current_page = 1;
@@ -84,7 +87,11 @@ class Lose extends CI_Controller
     public function showDetail()
     {
         $this->getname();
-        $item_id = (int)$this->input->post("item_id");
+//         $item_id = (int)$this->input->post("item_id");
+        $input = file_get_contents("php://input");
+        $post_data = json_decode($input,TRUE);
+        $item_id = $post_data["item_id"];
+        
         $item_info = $this->Lost->query_one($item_id);
         $front = $item_info['0'];
         if ($front['uploadphotos']) {
@@ -107,7 +114,9 @@ class Lose extends CI_Controller
     public function showUpdateLose()
     {
         $this->getname();
-        $item_id = (int)$this->input->get_post("item_id");
+        $input = file_get_contents("php://input");
+        $post_data = json_decode($input,TRUE);
+        $item_id = $post_data["item_id"];
         $item_info = $this->Lost->update_query_one($item_id);
         $front = $item_info['0'];
         if ($front['student_id'] !== $_SESSION['student_id'])
@@ -131,10 +140,8 @@ class Lose extends CI_Controller
     function insertItem()
     {
         $this->getname();
-        $post_data = $this->input->post();
-        $post_data['item_name'] = $this->input->post('item_name');
-        $post_data['tel'] = $this->input->post('tel');
-        $post_data['type_id'] = (int)$this->input->post('type_id');
+        $input = file_get_contents("php://input");
+        $post_data = json_decode($input,TRUE);
         if ($post_data['item_name'] && $post_data['tel'] && $post_data['type_id']) {
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
             (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
@@ -174,8 +181,9 @@ class Lose extends CI_Controller
     function updateItem()
     {
         $this->getname();
-        $post_data = $this->input->post();
-        $post_data['item_id'] = (int)$this->input->post('item_id');
+
+        $input = file_get_contents("php://input");
+        $post_data = json_decode($input,TRUE);
         if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
         {
             echo "你更改了不该更改的内容";
