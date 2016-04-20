@@ -8,7 +8,7 @@ class Person extends CI_Controller
     function __construct()
     {
         parent::__construct();
-//         $_SESSION['open_id'] = "1101";
+        $_SESSION['open_id'] = "1101";
         $this->getname();
     }
     
@@ -20,14 +20,13 @@ class Person extends CI_Controller
      */
      function getname()
     {
-        if(!$_SESSION['open_id'])
+        if(!isset($_SESSION['open_id']))
         {
             die('{"errno":101,"error":"非法进入！"}');
         }
         
         $this->load->model('Info');
         $rs = $this->Info->queryVal($_SESSION['open_id']);
-//         var_dump($rs);
         if ($rs==NULL)
         {
             $data = array(

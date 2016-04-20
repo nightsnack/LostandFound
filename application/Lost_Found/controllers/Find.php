@@ -23,7 +23,7 @@ class Find extends CI_Controller
      */
     private function getname()
     {
-        if(!$_SESSION['open_id'])
+        if(!isset($_SESSION['open_id']))
         {
             die('{"errno":101,"error":"非法进入！"}');
         }
