@@ -113,7 +113,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'application/Lost_Found';
+	$application_folder = 'application';
 
 /*
  *---------------------------------------------------------------
