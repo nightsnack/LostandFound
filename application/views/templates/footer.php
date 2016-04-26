@@ -3,7 +3,7 @@
           <div class="pull-right hidden-xs">
             <b>Version</b> 0.0.1
           </div>
-          <strong>Copyright &copy; 2015-2016 <a href="">iService</a>.</strong> All rights reserved.
+          <strong>Copyright &copy; 2015-2016 <a href="http://nightsnack.3-123.club">iService·吃夜宵</a>.</strong> All rights reserved.
         </div><!-- /.container -->
       </footer>
     </div><!-- ./wrapper -->

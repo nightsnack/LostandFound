@@ -53,9 +53,9 @@
 
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>
+        <h3>
               请选择物品类别
-            </h1>
+            </h3>
     </section>
 
     <section class="content">

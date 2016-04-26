@@ -156,22 +156,22 @@ class Lost extends CI_Model
      * @return array:total 当前项总数量
      *         res 详情结果（数组）
      */
-    public function query_mine($student_id)//, $offset, $num
+    public function query_mine($student_id, $offset, $num)
     {
-        $this->_db->select('a.item_id,a.item_name,a.detail,b.name as retrieve');
+        $this->_db->select('a.item_id,a.item_name,a.detail,a.uploadphotos,b.name as retrieve');
         $this->_db->from("$this->table as a");
         $this->_db->join('retrieve_status as b', "a.retrieve_id = b.retrieve_id", 'inner');
         $this->_db->order_by($this->primary_key, 'DESC');
         $this->_db->where("a.student_id", $student_id);
-//         $this->_db->limit($num, $offset);
+        $this->_db->limit($num, $offset);
         $query = $this->_db->get()->result_array();
     
-//         $this->_db->where("student_id", $student_id);
-//         $this->_db->from($this->table);
-//         $res = $this->_db->count_all_results();
+        $this->_db->where("student_id", $student_id);
+        $this->_db->from($this->table);
+        $res = $this->_db->count_all_results();
     
         return array(
-//             'total' => $res,
+            'total' => $res,
             'res' => $query
         );
     }

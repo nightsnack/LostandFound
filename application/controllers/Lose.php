@@ -69,7 +69,7 @@ class Lose extends CI_Controller
 
         $offset   = ($current_page - 1 ) * $config['per_page'];
         $item_info = $this->Lost->query_list($item_type,$offset,$config['per_page']);
-        $config['base_url'] = site_url("Find/showItems/$item_type");
+        $config['base_url'] = site_url("Lose/showItems/$item_type");
         $config['total_rows'] = $item_info['total'];
         $config['uri_segment'] = 4;
         $config['num_links'] = 2;
@@ -109,25 +109,27 @@ class Lose extends CI_Controller
      * @param
      *            number itemid 物品id
      */
-    public function showDetail()
+    public function showDetail($item_id)
     {
         $this->getname();
-//         $item_id = (int)$this->input->post("item_id");
-        $input = file_get_contents("php://input");
-        $post_data = json_decode($input,TRUE);
-        $item_id = $post_data["item_id"];
-        
+        $this->load->model('Info');
+        $judge = $this->Info->queryVal($_SESSION['open_id']);
+
         $item_info = $this->Lost->query_one($item_id);
+        if (empty($item_info)){
+            show_404();
+        }
         $front = $item_info['0'];
         if ($front['uploadphotos']) {
-            $front['uploadphotos'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@720w';
+            $front['uploadphotos'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@400w';
         } else
-            $front['uploadphotos'] = 'http://image.aifuwu.org/lostfound/default.jpg@720w';
-        if ($_SESSION['student_id'] == $item_info['0']['student_id']) {
+            $front['uploadphotos'] = 'http://image.aifuwu.org/lostfound/default.jpg@400w';
+        if (isset($judge['student_id'])&&$judge['student_id'] == $item_info['0']['student_id']) {
             $front['is_mine'] = 1;
-            $front['retrieve_select'] = $this->Lost->query_name_all('retrieve_status');
         }else $front['is_mine'] = 0;
-        echo json_encode($front, JSON_UNESCAPED_UNICODE);
+        $this->load->view('templates/header');
+        $this->load->view('LoseDetails',$front);
+        $this->load->view('templates/footer');
     }
 
     /**
@@ -136,26 +138,22 @@ class Lose extends CI_Controller
      * @param unknown $itemid
      *            物品id
      */
-    public function showUpdateLose()
+    public function showUpdateLose($item_id)
     {
         $this->getname();
-        $input = file_get_contents("php://input");
-        $post_data = json_decode($input,TRUE);
-        $item_id = $post_data["item_id"];
         $item_info = $this->Lost->update_query_one($item_id);
         $front = $item_info['0'];
         if ($front['student_id'] !== $_SESSION['student_id'])
-            $front = array(
-                'errno' => '101',
-                'error' => '错误入口!'
-            );
+            show_404();
             else {
         if ($front['uploadphotos']) {
-            $front['uploadphotos'] = 'http://oss.aifuwu.org/' . $front['uploadphotos'];
+            $front['uploadphotos_img'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@400w';
         } else
-            $front['uploadphotos'] = 'http://oss.aifuwu.org/lostfound/126.jpg';
+            $front['uploadphotos_img'] = 'http://image.aifuwu.org/lostfound/default.jpg@400w';
             }
-        echo json_encode($front, JSON_UNESCAPED_UNICODE);
+            $this->load->view('templates/header');
+            $this->load->view('UpdateLose',$front);
+            $this->load->view('templates/footer');
     }
 
     /**
@@ -164,9 +162,7 @@ class Lose extends CI_Controller
      */
     function insertItem()
     {
-        $this->getname();
-        $input = file_get_contents("php://input");
-        $post_data = json_decode($input,TRUE);
+        $post_data = $this->input->post(); 
         if ($post_data['item_name'] && $post_data['tel'] && $post_data['type_id']) {
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
             (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
@@ -175,12 +171,15 @@ class Lose extends CI_Controller
             (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
             $post_data['student_id'] = $_SESSION['student_id'];
             $post_data['release_name'] = $_SESSION['name'];
+            $post_data['create_time'] = date('Y-m-d H:i:s');
             $post_data['retrieve_id'] = 0;
             $post_data['retrieve_change_time'] = date('Y-m-d H:i:s');
             $post_data['retrieve_change_person'] = $_SESSION['name'];
-            if ($this->Lost->insert_one($post_data)) {
+            $insert_return = $this->Lost->insert_one($post_data);
+            if ($insert_return['status']) {
                 $data = array(
-                    'errno' => 0
+                    'errno' => 0,
+                    'item_id'=>$insert_return['id']
                 );
             } else {
                 $data = array(
@@ -206,19 +205,13 @@ class Lose extends CI_Controller
     function updateItem()
     {
         $this->getname();
-
-        $input = file_get_contents("php://input");
-        $post_data = json_decode($input,TRUE);
-//         if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
-//         {
-//             echo "你更改了不该更改的内容";
-//             die();
-//         }
+        $post_data = $this->input->post();
+        
+        if(isset($post_data['student_id'])||isset($post_data['release_name'])||isset($post_data['type_id']))
+        {
+            show_404();
+        }
         if (isset($post_data['item_id'])) {
-            // unset($post_data['item_type']);
-            // unset($post_data['uploadphotos']);
-            // (isset($post_data['student_id'])) && ($post_data['student_id'] = trim($post_data['student_id']));
-            // (isset($post_data['release_name'])) && ($post_data['release_name'] = trim($post_data['release_name']));
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));
             (isset($post_data['item_name'])) && ($post_data['item_name'] = trim($post_data['item_name']));
             (isset($post_data['position'])) && ($post_data['position'] = trim($post_data['position']));
@@ -226,7 +219,7 @@ class Lose extends CI_Controller
             (isset($post_data['detail'])) && ($post_data['detail'] = trim($post_data['detail']));
             $res = $this->Lost->query_one($post_data['item_id']);
             if ($res[0]['student_id'] !== $_SESSION['student_id'])
-                die('{"errno":101,"error":"非法进入！"}');
+                show_404();
             if (isset($post_data['retrieve_id'])&&$post_data['retrieve_id'] != $res[0]['retrieve_id']) {
                 $post_data['retrieve_change_time'] = date('Y-m-d H:i:s');
                 $post_data['retrieve_change_person'] = $_SESSION['name'];

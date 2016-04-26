@@ -29,7 +29,7 @@
         <nav class="navbar navbar-static-top">
           <div class="container">
             <div class="navbar-header">
-              <a href="" class="navbar-brand"><b>i</b>Service</a>
+              <a href="<?php echo base_url()?>" class="navbar-brand"><b>i</b>Service</a>
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                 <i class="fa fa-bars"></i>
               </button>
@@ -40,10 +40,12 @@
                 <li class="dropdown">
                   <a  href="#" class="dropdown-toggle" data-toggle="dropdown">失物招领 <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">失物招领</a></li>
-                    <li><a href="#">寻物启事</a></li>
-                    <li><a href="#">发布</a></li>
-                    <li><a href="#">个人中心</a></li>
+                    <li><a href="<?php echo site_url("Home/FindSquare") ?>">招领启事</a></li>
+                    <li><a href="<?php echo site_url("Home/LoseSquare") ?>">寻物启事</a></li>
+                    <li><a href="<?php echo site_url("Home/InsertFind") ?>">发布招领启事</a></li>
+                    <li><a href="<?php echo site_url("Home/InsertLose") ?>">发布寻物启事</a></li>
+                    <li><a href="<?php echo site_url("Person/myFind") ?>">我的招领启事</a></li>
+                    <li><a href="<?php echo site_url("Person/myLose") ?>">我的寻物启事</a></li>
                   </ul>
                 </li>
                 <li class="dropdown">

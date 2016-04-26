@@ -2,7 +2,7 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-              寻物广场
+              我发布的招领启事
             </h1>
     </section>
 
@@ -32,10 +32,15 @@
                         <span class="product-description">
                           <?php echo $list_item['detail'].' '?>
                         </span>
-                        <br>
                         <span class="product-description">
-                          找回状态：
-                          <span class="label label-<?php if ($list_item['retrieve']=="已找回")
+                          通知状态：
+                          <span class="label label-<?php if ($list_item['inform']=="已通知")
+                                                            echo "success";
+                                                            else echo "danger";?> pull-right"><?php echo $list_item['inform']?></span>
+                        </span>
+                        <span class="product-description">
+                          领取状态：
+                          <span class="label label-<?php if ($list_item['receive']=="已领取")
                                                             echo "info";
                                                             else echo "warning";?> pull-right"><?php echo $list_item['receive']?></span>
                         </span>

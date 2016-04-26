@@ -120,9 +120,9 @@ class Find extends CI_Controller
         }
         $front = $item_info['0'];
         if ($front['uploadphotos']) {
-            $front['uploadphotos'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@720w';
+            $front['uploadphotos'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@400w';
         } else
-            $front['uploadphotos'] = 'http://image.aifuwu.org/lostfound/default.jpg@720w';
+            $front['uploadphotos'] = 'http://image.aifuwu.org/lostfound/default.jpg@400w';
         if (isset($judge['student_id'])&&$judge['student_id'] == $item_info['0']['student_id']) {
             $front['is_mine'] = 1;
         }else $front['is_mine'] = 0;
@@ -146,9 +146,9 @@ class Find extends CI_Controller
             show_404();
             else {
         if ($front['uploadphotos']) {
-            $front['uploadphotos_img'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@720w';
+            $front['uploadphotos_img'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@400w';
         } else
-            $front['uploadphotos_img'] = 'http://image.aifuwu.org/lostfound/default.jpg@720w';
+            $front['uploadphotos_img'] = 'http://image.aifuwu.org/lostfound/default.jpg@400w';
             }
             $this->load->view('templates/header');
             $this->load->view('UpdateFind',$front);
