@@ -25,7 +25,7 @@
             </div><!-- /.col -->
             
             <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="">
+            <a href="<?php echo site_url("Home/LoseSquare") ?>">
               <div class="info-box">
                 <span class="info-box-icon bg-green"><i class="fa fa-envelope-o"></i></span>
                 <div class="info-box-content">
@@ -37,7 +37,7 @@
             </div><!-- /.col -->
             
                          <div class="col-md-3 col-sm-6 col-xs-12">
-              <a href="">
+              <a href="<?php echo site_url("Home/InsertFind") ?>">
               <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="fa fa-balance-scale"></i></span>
                 <div class="info-box-content">

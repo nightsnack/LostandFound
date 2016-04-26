@@ -1765,6 +1765,23 @@ a:focus {
   border-bottom-left-radius: 3px;
   padding: 10px;
 }
+.box-body1 {
+      border-bottom: 1px solid #f4f4f4;
+  margin: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 15px;
+        font-size: 16px;
+}
+.box-body1 > hr{
+  border-top-left-radius: 3;
+  border-top-right-radius: 3;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 0px;
+}
 .no-header .box-body {
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
@@ -2460,9 +2477,10 @@ color: black;
 }
 /* NAV STACKED */
 .nav-stacked > li > a {
+    font-size: 16px;
   border-radius: 0;
   border-top: 0;
-  border-left: 3px solid transparent;
+  border-left: 1px solid transparent;
   color: #444;
 }
 .nav-stacked > li.active > a,
@@ -3015,8 +3033,16 @@ table.text-center th {
   position: relative;
 }
 .widget-user .widget-user-header {
-  padding: 20px;
-  height: 120px;
+  padding: 36%;
+  height: 100%;
+/*    width: 100%;*/
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.widget-user .widget-user-header img{
+  padding: 40%;
+  height: 100%;
+/*    width: 100%;*/
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
 }

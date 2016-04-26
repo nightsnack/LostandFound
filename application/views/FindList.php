@@ -10,7 +10,7 @@
            <div class="row">
 
             
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-md-12">
               <div class="box box-primary">
                 <div class="box-body">
                 <ul class="products-list product-list-in-box">
@@ -19,9 +19,9 @@
                      <a href="<?php echo site_url("Find/showDetail/{$list_item['item_id']}"); ?>">
 
                       <div class="product-img">
-                        <img class="lazy" src="<?php         
+                        <img class="lazy" src="http://image.aifuwu.org/lostfound/load.gif" data-original="<?php         
         if ($list_item['uploadphotos']) 
-            echo 'http://image.aifuwu.org/lostfound/' . $list_item['uploadphotos'].'@100h_100w_2e';
+            echo 'http://image.aifuwu.org/' . $list_item['uploadphotos'].'@100h_100w_2e';
          else
             echo 'http://image.aifuwu.org/lostfound/default.jpg@100h_100w_2e';
                                   
@@ -48,8 +48,6 @@
                         </a>
                     </li><!-- /.item -->
                         <?php endforeach; ?>
-
-    
                   </ul>
                 </div><!-- /.box-body -->
               </div>

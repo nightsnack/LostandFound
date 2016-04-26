@@ -1,66 +1,121 @@
-<div data-role="header">
-	<h1>物品详细信息</h1>
-</div>
 
-<div data-role="main" class="ui-content detial_display">
+<div class="content-wrapper">
 
-	<h2>物品名称：<?php echo $item_name;?></h2>
-	
-	<a class="btn btn-default" href="<?php echo site_url("Find/showUpdateFind/$item_id")?>" role="button"  style="display:<?php echo $display;?>;" >编辑</a>
-	
-	<hr>
-	<p>物品类型：<?php echo $type;?></p>
-	<p>拾取人学号：<?php echo $student_id;?></p>
-    <p>拾取人姓名：<?php echo $release_name;?></p>
-    <p>拾取人电话：<?php echo $tel;?></p>
-	<hr>
-	<p>拾到地点：<?php echo $position;?></p>
-	<p>拾到时间：<?php echo $time?></p>
-	<p>物品描述：<?php echo $detail;?></p>
-	<hr>
-	
-	<p>通知状态：<?php echo $inform;?></p>
-	<p>更改人：<?php echo $inform_change_person;?></p>
-	<p>更改时间：<?php echo $inform_change_time;?></p>
-	<form method="post" data-ajax="false" action="<?php echo $action;?>" style="display:<?php echo $display;?>;"> 
-		<p>更改为：</p>
-		<select name="inform_id" id="inform_id" >
-		<?php foreach ($inform_select as $item): ?>
-				<option value="<?php echo $item['inform_id'];?>"<?php if($item['name']==$inform) echo 'disabled=""';?>><?php echo $item['name'];?></option> 
-		<?php endforeach; ?>
-		</select>
-		
-		<input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>">
-        <input type="hidden" name="inform_change_person" id="inform_change_person" value="<?php echo $release_name; ?>">
-        <input type="hidden" name="inform_change_time" id="inform_change_time" value="<?php echo date('Y-m-d H:i:s'); ?>">
-        
-        <button type="submit" id="submit" <?php if ($receive !== '未领取')  echo 'disabled=""';?>>更新</button>
-    </form>
-	<hr>
-	
-	<p>领取状态：<?php echo $receive;?></p>
-	<p>更改人：<?php echo $receive_change_person;?></p>
-	<p>更改时间：<?php echo $receive_change_time;?></p>
-	<form method="post" data-ajax="false" action="<?php echo $action;?>" style="display:<?php echo $display;?>;"> 
-		<p>更改为：</p>
-		<select name="receive_id" id="receive_id" >
-		<?php foreach ($receive_select as $item): ?>
-				<option value="<?php echo $item['receive_id'];?>"<?php if($item['name']==$receive) echo 'disabled=""';?>><?php echo $item['name'];?></option> 
-		<?php endforeach; ?>
-		</select>
-		
-		<input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>">
-        <input type="hidden" name="receive_change_person" id="receive_change_person" value="<?php echo $release_name; ?>">
-        <input type="hidden" name="receive_change_time" id="receive_change_time" value="<?php echo date('Y-m-d H:i:s'); ?>">
-        
-        <button type="submit" id="submit" <?php if ($inform === '未通知')  echo ' disabled=""';?>>
-        <?php if ($inform === '未通知')  echo '请先通知'; else echo "更新";?>
-        </button>
-    </form>
-	<hr>
-	
-	<h5>图片详情</h5>
-	<img src="<?php echo base_url(); ?>uploads/example.jpg">
 
+    <section class="content"> 
+           <div class="row">
+             
+
+            <div class="col-md-4">
+              <!-- Widget: user widget style 1 -->
+              <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-black" style="background: url('<?php echo $uploadphotos;?>'); 
+                 background-size:100% 100%;
+background-repeat:no-repeat;
+                 center center;">
+                  
+                </div>
+<div class="box-footer no-padding">
+                  <ul class="nav nav-stacked">
+                    <li><a>物品名称 <strong><span class="pull-right"><?php echo $item_name;?></span></strong></a></li>
+                    <li><a>类别 <span class="pull-right badge bg-aqua"><?php echo $type;?></span></a></li>
+                  </ul>
+                </div>
+              </div><!-- /.widget-user -->
+            </div>
+            <?php if ($is_mine): ?>
+            <div class="col-md-4">
+              <!-- Widget: user widget style 1 -->
+              <div class="box box-widget widget-user">
+
+<div class="box-footer no-padding">
+                  <ul class="nav nav-stacked">
+                      <li><a href="<?php echo site_url('/Find/showUpdateFind').'/'.$item_id?>"><strong>编辑</strong> <i class="fa fa-angle-right pull-right"></i></a></li>
+                  </ul>
+                </div>
+              </div><!-- /.widget-user -->
+            </div>
+            <?php endif; ?>
+            <div class="col-md-4">
+              <!-- Widget: user widget style 1 -->
+              <div class="box box-widget widget-user">
+
+<div class="box-footer no-padding">
+                  <ul class="nav nav-stacked">
+                    <li><a>发布人学号：<strong><span class="pull-right"><?php echo $student_id;?></span></strong></a></li>
+                    <li><a>发布人姓名：<strong><span class="pull-right"><?php echo $release_name;?></span></strong></a></li>
+                    <li><a>联系方式：<strong><span class="pull-right"><?php echo $tel;?></span></strong></a></li>
+                    <li></li>
+                  </ul>
+                <div class="box-body1">
+                 <p>捡到时间：</p>
+                  <strong class="pull-right"><p><?php echo $time?></p></strong>
+                  <br>
+    </div>
+                <div class="box-body1">
+                <p>捡到地点：</p>
+                  <strong class="pull-right"><p><?php echo $position;?></p></strong>
+                   <br>
+                    </div>
+                    <div class="box-body1">
+                <p>物品描述：</p>
+                  <p><?php echo $detail;?></p>
+                </div><!-- /.box-body -->
+
+                </div>
+                
+              </div><!-- /.widget-user -->
+            </div>
+            
+            <div class="col-md-12">
+              <!-- The time line -->
+              <ul class="timeline">
+                <li class="time-label">
+                  <span class="bg-red">
+                    <?php echo $create_time;?>
+                  </span>
+                </li>
+                <li>
+                  <i class="fa fa-user bg-aqua"></i>
+                  <div class="timeline-item">
+                    <h3 class="timeline-header no-border"><a><?php echo $release_name;?></a> 上传了这个物品的记录</h3>
+                  </div>
+                </li>
+                
+                
+                <li class="time-label">
+                  <span class="bg-green">
+                    <?php echo $inform_change_time;?>
+                  </span>
+                </li>
+                <li>
+                  <i class="fa fa-user bg-aqua"></i>
+                  <div class="timeline-item">
+                     <h3 class="timeline-header no-border"><a><?php echo $inform_change_person;?></a> 更改了该物品的通知状态为 <a><?php echo $inform;?></a></h3>
+                  </div>
+                </li>
+                               
+                <li class="time-label">
+                  <span class="bg-purple">
+                    <?php echo $receive_change_time;?>
+                  </span>
+                </li>
+                <li>
+                  <i class="fa fa-user bg-aqua"></i>
+                  <div class="timeline-item">
+                    <h3 class="timeline-header no-border"><a><?php echo $receive_change_person;?></a> 更改了该物品的领取状态为 <a><?php echo $receive;?></a></h3>
+                  </div>
+                </li>
+                
+                
+                <li>
+                  <i class="fa fa-clock-o bg-gray"></i>
+                </li>
+              </ul>
+            </div>
+            
+        </div>
+    </section>
 </div>
 

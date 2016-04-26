@@ -11,6 +11,7 @@ class Lose extends CI_Controller
     {
         parent::__construct();
         $this->load->model("Lost");
+        $this->load->library('pagination');
         $_SESSION['open_id'] = 1101;
     }
 
@@ -60,22 +61,46 @@ class Lose extends CI_Controller
      * @param
      *            number current_page 页码
      */
-    public function showItems()
-    {
-        $input = file_get_contents("php://input");
-        $post_data = json_decode($input,TRUE);
-        $item_type = $post_data["item_type"];
-        
-//         $current_page = $this->input->get_post("current_page");
-//         if (! $current_page)
-//             $current_page = 1;
-//         $offset = ($current_page - 1) * $this->per_page;
-        $item_info = $this->Lost->query_list($item_type);//, $offset, $this->per_page
-//         $num_pages = (int) ceil($item_info['total'] / $this->per_page);
-        
+    public function showItems($item_type=1,$current_page=1)
+    {        
+
+        $config = array();
+        $config['per_page']=$this->per_page;
+
+        $offset   = ($current_page - 1 ) * $config['per_page'];
+        $item_info = $this->Lost->query_list($item_type,$offset,$config['per_page']);
+        $config['base_url'] = site_url("Find/showItems/$item_type");
+        $config['total_rows'] = $item_info['total'];
+        $config['uri_segment'] = 4;
+        $config['num_links'] = 2;
+        $config['use_page_numbers'] = TRUE;
+ 
+        $config['full_tag_open'] = '<center><ul class="pagination">';
+        $config['full_tag_close'] = '</ul></center>';
+ 
+        $config['first_link'] = FALSE;
+        $config['last_link'] = FALSE;
+ 
+        $config['next_link'] = '下页';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+ 
+        $config['prev_link'] = '上页';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+ 
+        $config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
+        $config['cur_tag_close'] = '</a></li>';
+ 
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $pass['page']= $this->pagination->create_links();
         $pass['res'] = $item_info['res'];
-//         $pass['pages'] = $num_pages;
-        echo json_encode($pass, JSON_UNESCAPED_UNICODE);
+        $this->load->view('templates/header');
+        $this->load->view('Loselist',$pass);
+        $this->load->view('templates/footer');
     }
 
     /**
