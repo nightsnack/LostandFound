@@ -1,2 +1,3 @@
-/index.php为后台管理访问页面
-/lostfound.php为失物招领访问页面
+导入SQL.zip；
+里面有两个数据库
+直接输入url访问主页面
