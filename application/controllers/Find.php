@@ -26,7 +26,7 @@ class Find extends CI_Controller
     {
         if(!isset($_SESSION['open_id']))
         {
-            show_error('请从微信菜单进入', 403, $heading = '请从微信菜单进入');
+            show_error('请关注“南京邮电大学学生事务中心”微信，从微信“i服务”菜单进入“失物招领”。', 403, $heading = '未从微信进入');
         }
 
         if (empty($_SESSION['name']) || $_SESSION['name'] == 'nothing'||empty($_SESSION['student_id']) || $_SESSION['student_id'] == 'nothing') {
