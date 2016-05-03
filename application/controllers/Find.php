@@ -104,7 +104,7 @@ class Find extends CI_Controller
         } else
             $front['uploadphotos'] = 'http://image.aifuwu.org/lostfound/default.jpg@400w';
 
-        $head['title'] = '【找到一件物品，】'.$front['item_name'];
+        $head['title'] = '【捡到一件物品】'.$front['item_name'];
         $this->load->view('templates/header',$head);
         $this->load->view('FindDetails',$front);
         $this->load->view('templates/footer');

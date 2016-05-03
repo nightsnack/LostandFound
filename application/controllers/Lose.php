@@ -100,7 +100,7 @@ class Lose extends CI_Controller
         } else
             $front['uploadphotos'] = 'http://image.aifuwu.org/lostfound/default.jpg@400w';
         
-        $head['title'] = '【丢了一件物品，】'.$front['item_name'];
+        $head['title'] = '【丢了一件物品】'.$front['item_name'];
         
         $this->load->view('templates/header',$head);
         $this->load->view('LoseDetails',$front);
