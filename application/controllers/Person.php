@@ -20,38 +20,16 @@ class Person extends CI_Controller
      * 
      * @return NULL 
      */
-     function getname()
+    private function getname()
     {
         if(!isset($_SESSION['open_id']))
         {
-            die('{"errno":101,"error":"非法进入！"}');
+            show_404();
         }
-        
-        $this->load->model('Info');
-        $rs = $this->Info->queryVal($_SESSION['open_id']);
-        if ($rs==NULL)
-        {
-            $data = array(
-                'errno' => '1000',
-                'error' => '请传入open_id和student_id和zhxy_psw绑定',
-                'open_id' => $_SESSION['open_id']
-            );
-            echo json_encode($data, JSON_UNESCAPED_UNICODE);
-            die();
+        if (empty($_SESSION['name']) || $_SESSION['name'] == 'nothing'||empty($_SESSION['student_id']) || $_SESSION['student_id'] == 'nothing') {
+            header('http://wechat.aifuwu.org/oauth/Binding');
         }
-        if (empty($rs['name']) || $rs['name'] == 'nothing') {
-            $data = array(
-                'errno' => '1001',
-                'error' => '请传入open_id和zhxy_psw绑定',
-                'open_id' => $_SESSION['open_id']
-            );
-            echo json_encode($data, JSON_UNESCAPED_UNICODE);
-            die();
-            
-        }
-        $_SESSION['student_id'] = $rs['student_id'];
-        $_SESSION['name'] = $rs['name'];
-    }
+   }
     
     public function myLose($current_page = 1)
     {

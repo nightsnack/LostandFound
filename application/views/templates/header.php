@@ -22,7 +22,7 @@
     <script src="<?php echo base_url('assets/js/jQuery-2.1.4.min.js'); ?>"></script>
   </head>
   <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
-  <body class="hold-transition skin-red layout-top-nav">
+  <body class="hold-transition skin-red fixed layout-top-nav">
     <div class="wrapper">
 
            <header class="main-header">
