@@ -25,8 +25,8 @@ background-repeat:no-repeat;
                 </div>
               </div><!-- /.widget-user -->
             </div>
-            <?php if ($is_mine): ?>
-            <div class="col-md-4">
+            <?php if (isset($_SESSION['student_id'])&&$_SESSION['student_id']==$student_id): ?>
+                        <div class="col-md-4">
               <!-- Widget: user widget style 1 -->
               <div class="box box-widget widget-user">
 

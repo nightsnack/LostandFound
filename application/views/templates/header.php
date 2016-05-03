@@ -2,13 +2,14 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php if(!empty($title)) echo $title.'   ';?>--来自iService</title>
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="http://oss.aifuwu.org/admin-LTE-assets/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="http://oss.aifuwu.org/admin-LTE-assets/dist/css/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="<?php echo base_url('assets/css/AdminLTE/css/AdminLTE.css'); ?>">
-<link rel="stylesheet" href="http://oss.aifuwu.org/admin-LTE-assets/dist/css/skins/skin-red.min.css">
+    <link rel="stylesheet" href="http://oss.aifuwu.org/admin-LTE-assets/dist/css/AdminLTE.css">
+    
+    <link rel="stylesheet" href="http://oss.aifuwu.org/admin-LTE-assets/dist/css/skins/skin-red.min.css">
 	
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -46,7 +47,7 @@
         <nav class="navbar navbar-static-top">
           <div class="container">
             <div class="navbar-header">
-              <a href="<?php echo base_url()?>" class="navbar-brand"><b>i</b>Service</a>
+              <a href="http://wechat.aifuwu.org/home/" class="navbar-brand"><b>i</b>Service</a>
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                 <i class="fa fa-bars"></i>
               </button>

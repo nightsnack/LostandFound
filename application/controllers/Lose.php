@@ -25,7 +25,7 @@ class Lose extends CI_Controller
     {
         if(!isset($_SESSION['open_id']))
         {
-            show_404();
+            show_error('请从微信菜单进入', 403, $heading = '请从微信菜单进入');
         }
         if (empty($_SESSION['name']) || $_SESSION['name'] == 'nothing'||empty($_SESSION['student_id']) || $_SESSION['student_id'] == 'nothing') {
             header('http://wechat.aifuwu.org/oauth/Binding');
@@ -90,10 +90,6 @@ class Lose extends CI_Controller
      */
     public function showDetail($item_id)
     {
-        $this->getname();
-        $this->load->model('Info');
-        $judge = $this->Info->queryVal($_SESSION['open_id']);
-
         $item_info = $this->Lost->query_one($item_id);
         if (empty($item_info)){
             show_404();
@@ -103,10 +99,10 @@ class Lose extends CI_Controller
             $front['uploadphotos'] = 'http://image.aifuwu.org/' . $front['uploadphotos'].'@400w';
         } else
             $front['uploadphotos'] = 'http://image.aifuwu.org/lostfound/default.jpg@400w';
-        if (isset($judge['student_id'])&&$judge['student_id'] == $item_info['0']['student_id']) {
-            $front['is_mine'] = 1;
-        }else $front['is_mine'] = 0;
-        $this->load->view('templates/header');
+        
+        $head['title'] = '【丢了一件物品，】'.$front['item_name'];
+        
+        $this->load->view('templates/header',$head);
         $this->load->view('LoseDetails',$front);
         $this->load->view('templates/footer');
     }
@@ -141,6 +137,7 @@ class Lose extends CI_Controller
      */
     function insertItem()
     {
+        $this->getname();
         $post_data = $this->input->post(); 
         if ($post_data['item_name'] && $post_data['tel'] && $post_data['type_id']) {
             (isset($post_data['tel'])) && ($post_data['tel'] = trim($post_data['tel']));

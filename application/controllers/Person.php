@@ -24,7 +24,7 @@ class Person extends CI_Controller
     {
         if(!isset($_SESSION['open_id']))
         {
-            show_404();
+            show_error('请从微信菜单进入', 403, $heading = '请从微信菜单进入');
         }
         if (empty($_SESSION['name']) || $_SESSION['name'] == 'nothing'||empty($_SESSION['student_id']) || $_SESSION['student_id'] == 'nothing') {
             header('http://wechat.aifuwu.org/oauth/Binding');
