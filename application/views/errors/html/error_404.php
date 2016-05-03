@@ -116,10 +116,10 @@
       <footer class="main-footer">
         <div class="container">
           <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.0
+            <b>Version</b> 1.1.0
           </div>
-          <strong>Copyright &copy; 2015-2016 <a href="">iService</a>.</strong> All rights reserved.
-        </div><!-- /.container -->
+          <strong>Copyright &copy; 2015-2016 <a href="http://nightsnack.3-123.club">iService·夜宵</a>.</strong> All rights reserved.
+       </div><!-- /.container -->
       </footer>
     </div><!-- ./wrapper -->
 
