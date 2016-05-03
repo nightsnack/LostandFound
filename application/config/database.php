@@ -120,19 +120,19 @@ $db['lostfound'] = array(
     'save_queries' => TRUE
 );
 
-/*
-$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => '127.0.0.1',
-	'username' => 'root',
-	'password' => 'root',
+
+$db['latin1'] = array(
+	'dsn' => 'mysql:dbname=wechat;host=rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com;port=3306',
+    'hostname' => 'rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com',
     'port'     => '3306',
-	'database' => 'afwdb',
+    'username' => 'wechat',
+    'password' => 'aifuwu2014',
+    'database' => 'wechat',
 	'dbdriver' => 'mysqli',
-    'dbprefix' => '',
-    'pconnect' => FALSE,
-    'db_debug' => (ENVIRONMENT !== 'production'),
-    'cache_on' => FALSE,
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
     'cachedir' => '',
     'char_set' => 'latin1',
     'dbcollat' => 'latin1_general_ci',
@@ -143,7 +143,7 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
-*/
+
 
 $db['default'] = array(
 	'dsn' => 'mysql:dbname=wechat;host=rds1hq3v6d8f98sm33i0.mysql.rds.aliyuncs.com;port=3306',

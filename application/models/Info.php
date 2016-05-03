@@ -23,7 +23,7 @@ class Info extends CI_Model
 	{
 		parent::__construct();
 
-// 		$this->db = $this->load->database('latin1');
+  		$this->db = $this->load->database('latin1');
 		$this->load->library('aes');  // $this->aes
 		$this->aes->setKey('yiW7BPNI8ax0O39opkKCCFQS');
 	}
