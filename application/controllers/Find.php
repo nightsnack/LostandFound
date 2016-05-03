@@ -81,7 +81,7 @@ class Find extends CI_Controller
         $pass['page']= $this->pagination->create_links();
         $pass['res'] = $item_info['res'];
         $this->load->view('templates/header');
-        $this->load->view('Findlist',$pass);
+        $this->load->view('FindList',$pass);
         $this->load->view('templates/footer');
     }
 

@@ -78,7 +78,7 @@ class Lose extends CI_Controller
         $pass['page']= $this->pagination->create_links();
         $pass['res'] = $item_info['res'];
         $this->load->view('templates/header');
-        $this->load->view('Loselist',$pass);
+        $this->load->view('LoseList',$pass);
         $this->load->view('templates/footer');
     }
 
