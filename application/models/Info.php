@@ -15,6 +15,7 @@ class Info extends CI_Model
 	private $table = "student_basic_information";
 	/* 置空值 */
 	private $empty = "nothing";
+	
 	private $_db;
 	
 	/**
