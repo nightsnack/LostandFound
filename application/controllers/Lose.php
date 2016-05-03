@@ -12,7 +12,7 @@ class Lose extends CI_Controller
         parent::__construct();
         $this->load->model("Lost");
         $this->load->library('pagination');
-        $_SESSION['open_id'] = 1101;
+//         $_SESSION['open_id'] = 1101;
     }
 
 

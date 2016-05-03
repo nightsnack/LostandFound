@@ -10,7 +10,9 @@ class Find extends CI_Controller
         parent::__construct();
         $this->load->model("Found");
         $this->load->library('pagination');
-        $_SESSION['open_id'] = 1101;
+//         $_SESSION['open_id'] = 1101;
+//         $_SESSION['student_id']='B14020229';
+//         $_SESSION['name'] = '蔡宇轩';
 //         echo $_SESSION['open_id'];
         
     }
