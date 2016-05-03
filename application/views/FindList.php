@@ -13,6 +13,9 @@
             <div class="col-md-6 col-md-12">
               <div class="box box-primary">
                 <div class="box-body">
+                     <?php if(empty($res)):?>
+                     <p>暂无数据</p>
+                     <?php else: ?>
                 <ul class="products-list product-list-in-box">
                      <?php foreach ($res as $list_item): ?>
                     <li class="item">
@@ -49,6 +52,7 @@
                     </li><!-- /.item -->
                         <?php endforeach; ?>
                   </ul>
+                  <?php endif; ?>
                 </div><!-- /.box-body -->
               </div>
             </div>
